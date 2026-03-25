@@ -221,6 +221,15 @@ const Restaurant = () => {
             const tableStr = `Table ${tableNum}`;
             
             const token = localStorage.getItem('token');
+            console.log("🚀 Reservation Payload:", {
+                guestName: user.name,
+                email: user.email,
+                date: reserveDate,
+                time: reserveTime,
+                guests: reserveGuests,
+                tableNumber: tableStr
+            });
+
             const response = await fetch('http://localhost:5000/api/reservations', {
                 method: 'POST',
                 headers: {

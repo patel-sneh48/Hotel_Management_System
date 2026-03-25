@@ -53,6 +53,14 @@ const MyBasket = () => {
         }
     }, [user, token]);
 
+    // Auto-refresh reservations when switching to the tables tab
+    useEffect(() => {
+        if (historyTab === 'tables' && user && token) {
+            console.log("🔄 Tab switched to Tables, refreshing history...");
+            fetchReservationHistory();
+        }
+    }, [historyTab, user, token]);
+
     const fetchOrderHistory = async () => {
         setLoadingHistory(true);
         try {
@@ -72,15 +80,17 @@ const MyBasket = () => {
 
     const fetchReservationHistory = async () => {
         try {
+            console.log("📡 Fetching reservations for:", user?.name);
             const res = await fetch('http://localhost:5000/api/reservations/my-reservations', {
                 headers: { Authorization: `Bearer ${token}` }
             });
             const data = await res.json();
+            console.log("✅ Reservations data received:", data);
             if (data.success) {
                 setReservationHistory(data.reservations);
             }
         } catch (err) {
-            console.error('Error fetching reservations:', err);
+            console.error('❌ Error fetching reservations:', err);
         }
     };
 
@@ -277,13 +287,13 @@ const MyBasket = () => {
 
                     {/* History Tabs */}
                     <div className="history-tabs" style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-                        <button 
+                        <button
                             className={`history-tab-btn ${historyTab === 'food' ? 'active' : ''}`}
                             onClick={() => setHistoryTab('food')}
                         >
                             <Utensils size={16} /> Food History
                         </button>
-                        <button 
+                        <button
                             className={`history-tab-btn ${historyTab === 'tables' ? 'active' : ''}`}
                             onClick={() => setHistoryTab('tables')}
                         >
@@ -302,7 +312,7 @@ const MyBasket = () => {
                         ) : (
                             <div className="history-list">
                                 {orderHistory.map((order, idx) => (
-                                    <motion.div 
+                                    <motion.div
                                         key={order._id}
                                         className="history-card glass-card"
                                         initial={{ opacity: 0, y: 15 }}
@@ -313,8 +323,8 @@ const MyBasket = () => {
                                             <div className="history-date-box">
                                                 <Clock size={14} className="text-primary" />
                                                 <span>
-                                                    {new Date(order.createdAt).toLocaleDateString('en-US', { 
-                                                        month: 'short', day: 'numeric', year: 'numeric' 
+                                                    {new Date(order.createdAt).toLocaleDateString('en-US', {
+                                                        month: 'short', day: 'numeric', year: 'numeric'
                                                     })} • {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                                 </span>
                                             </div>
@@ -332,7 +342,7 @@ const MyBasket = () => {
                                             <div className="history-card-right">
                                                 <div className="history-total-label">Total Amount</div>
                                                 <div className="history-total-val">${order.totalAmount.toFixed(2)}</div>
-                                                <button 
+                                                <button
                                                     className="history-view-btn"
                                                     onClick={() => navigate('/room-service-order', { state: { fromHistory: true } })}
                                                 >
@@ -353,7 +363,7 @@ const MyBasket = () => {
                         ) : (
                             <div className="history-list">
                                 {reservationHistory.map((res, idx) => (
-                                    <motion.div 
+                                    <motion.div
                                         key={res._id}
                                         className="history-card glass-card table-res-card"
                                         initial={{ opacity: 0, y: 15 }}
@@ -364,8 +374,8 @@ const MyBasket = () => {
                                             <div className="history-date-box">
                                                 <Clock size={14} className="text-primary" />
                                                 <span>
-                                                    {new Date(res.date).toLocaleDateString('en-US', { 
-                                                        month: 'short', day: 'numeric', year: 'numeric' 
+                                                    {new Date(res.date).toLocaleDateString('en-US', {
+                                                        month: 'short', day: 'numeric', year: 'numeric'
                                                     })} • {res.time}
                                                 </span>
                                             </div>
@@ -374,20 +384,36 @@ const MyBasket = () => {
 
                                         <div className="history-card-body">
                                             <div className="res-details-preview">
+                                                <div className="res-guest-info">
+                                                    <span className="text-dim">Reserved for:</span>
+                                                    <span className="res-guest-name">{res.guestName}</span>
+                                                </div>
                                                 <div className="res-detail-line">
                                                     <Utensils size={16} className="text-gold" />
                                                     <span>Fine Dining Experience</span>
                                                 </div>
-                                                <div className="res-detail-line">
-                                                    <span className="text-dim">Party Size:</span>
-                                                    <span className="font-bold">{res.guests}</span>
+                                                <div className="res-detail-line" style={{ display: 'flex', gap: '2rem' }}>
+                                                    <div>
+                                                        <span className="text-dim">Party Size:</span>
+                                                        <span className="font-bold ml-2">{res.guests}</span>
+                                                    </div>
+                                                    <div>
+                                                        <span className="text-dim">ID:</span>
+                                                        <span className="font-bold ml-2">RSV-{res._id.slice(-6).toUpperCase()}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="history-card-right">
                                                 <div className="history-status-label">Status</div>
-                                                <div className="history-status-val" style={{ color: '#10b981', textTransform: 'uppercase', fontSize: '0.8rem', fontWeight: '800' }}>
+                                                <div className="history-status-val" style={{ color: '#10b981', textTransform: 'uppercase', fontSize: '0.8rem', fontWeight: '800', marginBottom: '1rem' }}>
                                                     Confirmed
                                                 </div>
+                                                <button 
+                                                    className="history-view-btn"
+                                                    onClick={() => alert("🎟️ Digital Reservation Slip\n\nID: RSV-" + res._id.slice(-6).toUpperCase() + "\nGuest: " + res.guestName + "\nTable: " + res.tableNumber + "\nDate: " + new Date(res.date).toLocaleDateString() + "\nTime: " + res.time + "\n\nShow this slip at the restaurant entrance.")}
+                                                >
+                                                    Digital Slip <ChevronRight size={14} />
+                                                </button>
                                             </div>
                                         </div>
                                     </motion.div>
@@ -401,13 +427,13 @@ const MyBasket = () => {
             {/* Order Success Modal */}
             <AnimatePresence>
                 {showSuccessModal && (
-                    <motion.div 
+                    <motion.div
                         className="modal-overlay-basket"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                     >
-                        <motion.div 
+                        <motion.div
                             className="modal-content-basket glass-card"
                             initial={{ scale: 0.9, y: 20, opacity: 0 }}
                             animate={{ scale: 1, y: 0, opacity: 1 }}
@@ -415,7 +441,7 @@ const MyBasket = () => {
                             transition={{ type: "spring", damping: 25, stiffness: 300 }}
                         >
                             <div className="success-icon-wrapper">
-                                <motion.div 
+                                <motion.div
                                     initial={{ scale: 0 }}
                                     animate={{ scale: 1 }}
                                     transition={{ delay: 0.2, type: "spring" }}
@@ -423,10 +449,10 @@ const MyBasket = () => {
                                     <PackageCheck size={50} color="#d4af37" />
                                 </motion.div>
                             </div>
-                            
+
                             <h2 className="modal-title-basket">Order Confirmed!</h2>
                             <p className="modal-subtitle-basket">Thank you for choosing LuxeStay. Your order has been successfully placed.</p>
-                            
+
                             <div className="user-details-summary">
                                 <div className="detail-item">
                                     <span className="detail-label">Guest Name</span>
@@ -456,7 +482,7 @@ const MyBasket = () => {
 
                             <div className="modal-footer-basket">
                                 <p className="confirmation-msg">🛎️ Our team will deliver your order shortly.</p>
-                                <button 
+                                <button
                                     className="btn btn-primary modal-close-btn-basket"
                                     onClick={() => {
                                         setShowSuccessModal(false);
@@ -882,10 +908,14 @@ const MyBasket = () => {
                 
                 /* Table Reservation Specific */
                 .res-details-preview { flex: 1; display: flex; flex-direction: column; gap: 0.8rem; }
+                .res-guest-info { font-size: 1rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.6rem; margin-bottom: 0.2rem; width: 100%; display: flex; align-items: center; }
+                .res-guest-name { font-weight: 700; color: #d4af37; margin-left: 0.6rem; font-size: 1.1rem; }
+                
                 .res-detail-line { display: flex; align-items: center; gap: 0.8rem; font-size: 1rem; color: #fff; }
                 .res-detail-line .text-gold { color: #d4af37; }
                 .text-dim { color: rgba(255,255,255,0.5); }
                 .font-bold { font-weight: 700; }
+                .ml-2 { margin-left: 0.5rem; }
                 .history-status-label { font-size: 0.75rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem; }
 
                 .history-mini-item { display: flex; align-items: center; gap: 1rem; }
