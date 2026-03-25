@@ -30,9 +30,17 @@ const bookingSchema = new mongoose.Schema({
         type: Date,
         required: true
     },
+    checkInTime: {
+        type: String,
+        required: false // requested by user
+    },
     checkOut: {
         type: Date,
         required: true
+    },
+    checkOutTime: {
+        type: String,
+        required: false // requested by user
     },
     totalAmount: {
         type: Number,
@@ -47,6 +55,10 @@ const bookingSchema = new mongoose.Schema({
         type: String,
         enum: ['pending', 'success', 'failed'],
         default: 'pending'
+    },
+    roomNumber: {
+        type: String,
+        required: false // assigned by system
     },
     createdAt: {
         type: Date,

@@ -11,11 +11,16 @@ import MyBookings from './components/Booking/MyBookings';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Restaurant from './components/Restaurant/Restaurant';
+import MyBasket from './components/Restaurant/MyBasket';
+import RoomServiceOrder from './components/Restaurant/RoomServiceOrder';
 import Footer from './components/Home/Footer';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
-    <Routes>
+    <>
+      <ScrollToTop />
+      <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/rooms" element={<Rooms />} />
       <Route path="/rooms/:id" element={<RoomDetails />} />
@@ -28,7 +33,11 @@ function App() {
       <Route path="/booking-success/:id" element={<BookingSuccess />} />
       <Route path="/my-bookings" element={<MyBookings />} />
       <Route path="/restaurant" element={<Restaurant />} />
-    </Routes>
+      <Route path="/my-basket" element={<MyBasket />} />
+      <Route path="/room-service-order" element={<RoomServiceOrder />} />
+      </Routes>
+    </>
   );
 }
 export default App;
+

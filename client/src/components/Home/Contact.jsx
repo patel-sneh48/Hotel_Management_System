@@ -59,13 +59,14 @@ const Contact = () => {
                             fontSize: '3.5rem',
                             marginBottom: '1rem',
                             fontWeight: 700,
-                            letterSpacing: '0.02em'
+                            letterSpacing: '0.05em',
+                            fontFamily: "'Algerian', serif"
                         }}>Contact Us</h1>
                         <p style={{
-                            fontSize: '1.2rem',
+                            fontSize: '1.4rem',
                             color: '#cbd5e1',
-                            fontFamily: "'Caveat', cursive",
-                            fontWeight: 300
+                            fontFamily: "'Outfit', sans-serif",
+                            fontWeight: 400
                         }}>We're Here to Help</p>
                     </div>
                 </div>
@@ -85,17 +86,18 @@ const Contact = () => {
                             <h2 style={{
                                 marginBottom: '2rem',
                                 color: 'var(--primary)',
-                                fontSize: '2.2rem',
-                                fontWeight: 700
+                                fontSize: '2.5rem',
+                                fontWeight: 700,
+                                fontFamily: "'Algerian', serif"
                             }}>Get in Touch</h2>
 
                             <p style={{
                                 marginBottom: '2rem',
                                 color: 'var(--text-muted)',
                                 lineHeight: '1.6',
-                                fontFamily: "'Caveat', cursive",
-                                fontWeight: 300,
-                                fontSize: '1rem'
+                                fontFamily: "'Outfit', sans-serif",
+                                fontWeight: 400,
+                                fontSize: '1.1rem'
                             }}>
                                 Have questions about your booking or special requests? Reach out to our concierge team 24/7.
                             </p>
@@ -119,13 +121,13 @@ const Contact = () => {
                                         <h3 style={{
                                             fontSize: '1.2rem',
                                             marginBottom: '0.5rem',
-                                            fontFamily: "'Caveat', cursive",
+                                            fontFamily: "'Algerian', serif",
                                             fontWeight: 600
                                         }}>Phone</h3>
                                         <p style={{
                                             color: 'var(--text-muted)',
-                                            fontFamily: "'Caveat', cursive",
-                                            fontWeight: 300,
+                                            fontFamily: "'Outfit', sans-serif",
+                                            fontWeight: 400,
                                             fontSize: '0.95rem'
                                         }}>+91 9909599765</p>
                                         <p style={{
@@ -155,13 +157,13 @@ const Contact = () => {
                                         <h3 style={{
                                             fontSize: '1.2rem',
                                             marginBottom: '0.5rem',
-                                            fontFamily: "'Caveat', cursive",
+                                            fontFamily: "'Algerian', serif",
                                             fontWeight: 600
                                         }}>Email</h3>
                                         <p style={{
                                             color: 'var(--text-muted)',
-                                            fontFamily: "'Caveat', cursive",
-                                            fontWeight: 300,
+                                            fontFamily: "'Outfit', sans-serif",
+                                            fontWeight: 400,
                                             fontSize: '0.95rem'
                                         }}>concierge@luxestay.com</p>
                                         <p style={{
@@ -191,13 +193,13 @@ const Contact = () => {
                                         <h3 style={{
                                             fontSize: '1.2rem',
                                             marginBottom: '0.5rem',
-                                            fontFamily: "'Caveat', cursive",
+                                            fontFamily: "'Algerian', serif",
                                             fontWeight: 600
                                         }}>Location</h3>
                                         <p style={{
                                             color: 'var(--text-muted)',
-                                            fontFamily: "'Caveat', cursive",
-                                            fontWeight: 300,
+                                            fontFamily: "'Outfit', sans-serif",
+                                            fontWeight: 400,
                                             fontSize: '0.95rem',
                                             lineHeight: '1.6'
                                         }}>LuxeStay Hotel Malabar Hill</p>
@@ -223,8 +225,8 @@ const Contact = () => {
                         }}>
                             <h3 style={{
                                 marginBottom: '1.5rem',
-                                fontSize: '1.8rem',
-                                fontFamily: "'Caveat', cursive",
+                                fontSize: '2rem',
+                                fontFamily: "'Algerian', serif",
                                 fontWeight: 700,
                                 color: 'var(--primary)'
                             }}>Send a Message</h3>
@@ -235,7 +237,7 @@ const Contact = () => {
                                         display: 'block',
                                         marginBottom: '0.5rem',
                                         fontSize: '0.95rem',
-                                        fontFamily: "'Caveat', cursive",
+                                        fontFamily: "'Outfit', sans-serif",
                                         fontWeight: 500
                                     }}>Name</label>
                                     <input
@@ -248,7 +250,7 @@ const Contact = () => {
                                             border: '1px solid #334155',
                                             background: '#0f172a',
                                             color: '#fff',
-                                            fontFamily: "'Caveat', cursive",
+                                            fontFamily: "'Outfit', sans-serif",
                                             fontSize: '0.95rem',
                                             transition: 'border-color 0.3s ease'
                                         }}
@@ -263,7 +265,7 @@ const Contact = () => {
                                         display: 'block',
                                         marginBottom: '0.5rem',
                                         fontSize: '0.95rem',
-                                        fontFamily: "'Caveat', cursive",
+                                        fontFamily: "'Outfit', sans-serif",
                                         fontWeight: 500
                                     }}>Email</label>
                                     <input
@@ -276,7 +278,7 @@ const Contact = () => {
                                             border: '1px solid #334155',
                                             background: '#0f172a',
                                             color: '#fff',
-                                            fontFamily: "'Caveat', cursive",
+                                            fontFamily: "'Outfit', sans-serif",
                                             fontSize: '0.95rem',
                                             transition: 'border-color 0.3s ease'
                                         }}
@@ -291,7 +293,7 @@ const Contact = () => {
                                         display: 'block',
                                         marginBottom: '0.5rem',
                                         fontSize: '0.95rem',
-                                        fontFamily: "'Caveat', cursive",
+                                        fontFamily: "'Outfit', sans-serif",
                                         fontWeight: 500
                                     }}>Message</label>
                                     <textarea
@@ -304,7 +306,7 @@ const Contact = () => {
                                             border: '1px solid #334155',
                                             background: '#0f172a',
                                             color: '#fff',
-                                            fontFamily: "'Caveat', cursive",
+                                            fontFamily: "'Outfit', sans-serif",
                                             fontSize: '0.95rem',
                                             resize: 'vertical',
                                             transition: 'border-color 0.3s ease'

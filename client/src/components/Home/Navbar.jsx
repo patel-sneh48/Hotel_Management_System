@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Crown, Utensils, Coffee, Pizza, Sandwich, Calendar, Users, ChevronDown, Search, LogOut, Menu, X } from 'lucide-react';
+import { Crown, Utensils, Coffee, Pizza, Sandwich, Calendar, Users, ChevronDown, Search, LogOut, Menu, X, ShoppingBasket, ShoppingBag, History } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { useBasket } from '../../context/BasketContext';
 
 
 const Navbar = () => {
@@ -14,6 +15,7 @@ const Navbar = () => {
     const bookingRef = useRef(null);
     const profileRef = useRef(null);
     const { user, logout } = useAuth();
+    const { totalItems } = useBasket();
     const isRestaurantPage = location.pathname.startsWith('/restaurant');
 
     useEffect(() => {
@@ -128,15 +130,35 @@ const Navbar = () => {
                                                 <span>Check Availability</span>
                                             </Link>
 
-                                            {user && (
+                                            {user ? (
+                                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                                                    <Link
+                                                        to="/my-bookings"
+                                                        className="btn btn-outline"
+                                                        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem', fontSize: '0.9rem' }}
+                                                        onClick={() => setShowBooking(false)}
+                                                    >
+                                                        <Calendar size={16} />
+                                                        <span>Manage My Bookings</span>
+                                                    </Link>
+                                                    <Link
+                                                        to="/my-basket"
+                                                        className="btn btn-outline"
+                                                        style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem', fontSize: '0.9rem' }}
+                                                        onClick={() => setShowBooking(false)}
+                                                    >
+                                                        <ShoppingBasket size={16} />
+                                                        <span>My Basket</span>
+                                                    </Link>
+                                                </div>
+                                            ) : (
                                                 <Link
-                                                    to="/my-bookings"
+                                                    to="/login"
                                                     className="btn btn-outline"
-                                                    style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem', fontSize: '0.9rem' }}
+                                                    style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', padding: '0.75rem', fontSize: '0.9rem', color: 'var(--primary)', borderColor: 'var(--primary)' }}
                                                     onClick={() => setShowBooking(false)}
                                                 >
-                                                    <Calendar size={16} />
-                                                    <span>Manage My Bookings</span>
+                                                    <span>Log In / Sign Up to Book</span>
                                                 </Link>
                                             )}
                                         </div>
@@ -181,6 +203,12 @@ const Navbar = () => {
                                             <div className="profile-links">
                                                 <button className="profile-link-btn" onClick={() => { setShowProfile(false); navigate('/my-bookings'); }}>
                                                     <Calendar size={16} /> My Bookings
+                                                </button>
+                                                <button className="profile-link-btn" onClick={() => { setShowProfile(false); navigate('/my-basket'); }}>
+                                                    <ShoppingBasket size={16} /> My Basket
+                                                </button>
+                                                <button className="profile-link-btn" onClick={() => { setShowProfile(false); navigate('/my-basket', { state: { tab: 'tables' } }); }}>
+                                                    <History size={16} /> My Reservations
                                                 </button>
                                                 <button className="profile-link-btn logout-btn" onClick={logout}>
                                                     <LogOut size={16} /> Logout
@@ -253,6 +281,29 @@ const Navbar = () => {
                             <Utensils size={16} />
                             {isRestaurantPage ? " Hotel" : " Restaurant"}
                         </Link>
+
+                        {user && (
+                            <>
+                                <Link to="/my-bookings" className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
+                                    <Calendar size={18} /> My Bookings
+                                </Link>
+                                <Link to="/my-basket" className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
+                                    <ShoppingBasket size={18} /> My Basket
+                                    {totalItems > 0 && <span className="basket-count-pills">{totalItems}</span>}
+                                </Link>
+                                <Link 
+                                    to="/my-basket" 
+                                    className="mobile-nav-link" 
+                                    state={{ tab: 'tables' }}
+                                    onClick={() => setMobileOpen(false)}
+                                >
+                                    <History size={18} /> My Reservations
+                                </Link>
+                                <Link to="/room-service-order" className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
+                                    <ShoppingBag size={18} /> My Orders
+                                </Link>
+                            </>
+                        )}
                     </nav>
 
                     {/* Book & Stay - Only for Hotel */}
@@ -772,6 +823,67 @@ const Navbar = () => {
                     .logo-subtitle { display: none; }
                     .logo-main { font-size: 1.2rem; }
                 }
+
+                /* ─── BASKET STYLES ─── */
+                .nav-basket-lnk {
+                    text-decoration: none;
+                    color: var(--text-main);
+                    padding: 0.5rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: transform 0.2s;
+                }
+                .nav-basket-lnk:hover { transform: scale(1.1); color: var(--primary); }
+
+                .nav-basket-lnk-mobile {
+                    text-decoration: none;
+                    color: var(--text-main);
+                    padding: 0.35rem;
+                    margin-right: 0.5rem;
+                }
+
+                .basket-icon-wrapper { position: relative; display: flex; align-items: center; }
+                
+                .basket-badge {
+                    position: absolute;
+                    top: -8px; right: -10px;
+                    background: #d4af37;
+                    color: #000;
+                    font-size: 0.68rem;
+                    font-weight: 800;
+                    min-width: 18px;
+                    height: 18px;
+                    border-radius: 50%;
+                    display: flex; align-items: center; justify-content: center;
+                    border: 2px solid #0f172a;
+                    line-height: 1;
+                    padding: 0 2px;
+                }
+
+                .basket-icon-wrapper-mob {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    width: 100%;
+                }
+
+                .basket-count-pills {
+                    margin-left: auto;
+                    background: var(--primary);
+                    color: #000;
+                    padding: 0.15rem 0.6rem;
+                    border-radius: 20px;
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                }
+
+                @keyframes pop {
+                    0% { transform: scale(0.8); opacity: 0; }
+                    50% { transform: scale(1.2); }
+                    100% { transform: scale(1); opacity: 1; }
+                }
+                .animate-pop { animation: pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
             `}</style>
         </>
     );

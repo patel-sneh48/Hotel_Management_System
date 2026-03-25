@@ -7,6 +7,31 @@ const { OAuth2Client } = require('google-auth-library');
 
 const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID || 'PLACEHOLDER_CLIENT_ID');
 
+// ─── Terminal Error Logger ────────────────────────────────────────────────────
+const logError = (route, error) => {
+    const RED    = '\x1b[31m';
+    const YELLOW = '\x1b[33m';
+    const CYAN   = '\x1b[36m';
+    const RESET  = '\x1b[0m';
+    const BOLD   = '\x1b[1m';
+    const DIM    = '\x1b[2m';
+
+    const timestamp = new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' });
+    console.error(`\n${RED}${BOLD}╔══════════════════════════════════════════════╗`);
+    console.error(`║           ❌  AUTH ERROR OCCURRED            ║`);
+    console.error(`╚══════════════════════════════════════════════╝${RESET}`);
+    console.error(`${YELLOW}  📍 Route   : ${RESET}POST /api/auth/${route}`);
+    console.error(`${YELLOW}  🕐 Time    : ${RESET}${timestamp}`);
+    console.error(`${CYAN}  💬 Message : ${RESET}${error.message || 'Unknown error'}`);
+    if (error.stack) {
+        const stackLines = error.stack.split('\n').slice(1, 4); // show top 3 frames
+        console.error(`${DIM}  📋 Stack   :`);
+        stackLines.forEach(line => console.error(`             ${line.trim()}`));
+    }
+    console.error(`${RED}${BOLD}────────────────────────────────────────────────${RESET}\n`);
+};
+// ─────────────────────────────────────────────────────────────────────────────
+
 // Generate JWT Helper
 const generateToken = (id) => {
     return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -45,7 +70,7 @@ router.post('/register', async (req, res) => {
             res.status(400).json({ success: false, message: 'Invalid user data' });
         }
     } catch (error) {
-        console.error(error);
+        logError('register', error);
         res.status(500).json({ success: false, message: 'Server error during registration' });
     }
 });
@@ -72,7 +97,7 @@ router.post('/login', async (req, res) => {
             res.status(401).json({ success: false, message: 'Invalid credentials' });
         }
     } catch (error) {
-        console.error(error);
+        logError('login', error);
         res.status(500).json({ success: false, message: 'Server error during login' });
     }
 });
@@ -121,7 +146,7 @@ router.post('/google', async (req, res) => {
         });
 
     } catch (error) {
-        console.error("Google Auth Error:", error);
+        logError('google', error);
         res.status(500).json({ success: false, message: 'Google authentication failed' });
     }
 });
@@ -139,7 +164,7 @@ router.get('/me', protect, async (req, res) => {
             email: req.user.email,
         });
     } catch (error) {
-        console.error(error);
+        logError('me (profile)', error);
         res.status(500).json({ success: false, message: 'Error fetching user profile' });
     }
 });

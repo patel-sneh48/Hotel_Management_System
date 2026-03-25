@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Wifi, Wind, Users, Check, ArrowLeft, Star, Coffee, Tv } from 'lucide-react';
 import Navbar from '../Home/Navbar';
@@ -9,6 +10,47 @@ const RoomDetails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { room, loading, error } = useRoom(id);
+    
+    // Booking states
+    const [checkIn, setCheckIn] = useState('');
+    const [checkOut, setCheckOut] = useState('');
+    const [bookingError, setBookingError] = useState('');
+    const [isAvailable, setIsAvailable] = useState(true);
+    const [isValidating, setIsValidating] = useState(false);
+
+    const today = new Date().toISOString().split('T')[0];
+
+    // Check availability when dates change
+    useEffect(() => {
+        const checkRoomAvailability = async () => {
+            if (!room || !checkIn || !checkOut) return;
+            
+            const start = new Date(checkIn);
+            const end = new Date(checkOut);
+            if (end <= start) return;
+
+            setIsValidating(true);
+            setBookingError('');
+            
+            try {
+                const response = await fetch(`http://localhost:5000/api/bookings/check-availability?roomTitle=${encodeURIComponent(room.title)}&checkIn=${checkIn}&checkOut=${checkOut}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    setIsAvailable(data.available);
+                    if (!data.available) {
+                        setBookingError(data.message);
+                    }
+                }
+            } catch (err) {
+                console.error("Availability check error:", err);
+            } finally {
+                setIsValidating(false);
+            }
+        };
+
+        checkRoomAvailability();
+    }, [checkIn, checkOut, room?.title]);
 
     // Helper to render amenity icon
     const getAmenityIcon = (amenityName) => {
@@ -101,11 +143,9 @@ const RoomDetails = () => {
 
                             <form className="booking-form" onSubmit={(e) => {
                                 e.preventDefault();
-                                const checkIn = e.target.checkIn.value;
-                                const checkOut = e.target.checkOut.value;
 
                                 if (!checkIn || !checkOut) {
-                                    alert('Please select both check-in and check-out dates.');
+                                    setBookingError('Please select both check-in and check-out dates.');
                                     return;
                                 }
 
@@ -113,15 +153,15 @@ const RoomDetails = () => {
                                 const end = new Date(checkOut);
 
                                 if (end <= start) {
-                                    alert('Check-out date must be after check-in date.');
+                                    setBookingError('Check-out date must be after check-in date.');
                                     return;
                                 }
+
+                                if (!isAvailable) return;
 
                                 const nights = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
                                 const totalAmount = nights * room.price;
 
-                                // Assuming you've imported useNavigate from react-router-dom at the top
-                                // We'll add it in the next step using multi_replace
                                 navigate('/checkout', {
                                     state: {
                                         room,
@@ -134,13 +174,42 @@ const RoomDetails = () => {
                             }}>
                                 <div className="form-group">
                                     <label>Check In</label>
-                                    <input type="date" name="checkIn" required min={new Date().toISOString().split('T')[0]} />
+                                    <input 
+                                        type="date" 
+                                        name="checkIn" 
+                                        required 
+                                        min={today}
+                                        value={checkIn}
+                                        onChange={(e) => setCheckIn(e.target.value)}
+                                    />
                                 </div>
                                 <div className="form-group">
                                     <label>Check Out</label>
-                                    <input type="date" name="checkOut" required min={new Date().toISOString().split('T')[0]} />
+                                    <input 
+                                        type="date" 
+                                        name="checkOut" 
+                                        required 
+                                        min={checkIn || today}
+                                        value={checkOut}
+                                        onChange={(e) => setCheckOut(e.target.value)}
+                                    />
                                 </div>
-                                <button type="submit" className="btn btn-primary btn-full">Reserve This Room</button>
+
+                                {bookingError && (
+                                    <p style={{ color: '#ef4444', fontSize: '0.85rem', textAlign: 'center' }}>{bookingError}</p>
+                                )}
+
+                                <button 
+                                    type="submit" 
+                                    className="btn btn-primary btn-full"
+                                    disabled={!isAvailable || isValidating}
+                                    style={{
+                                        opacity: (!isAvailable || isValidating) ? 0.6 : 1,
+                                        cursor: (!isAvailable || isValidating) ? 'not-allowed' : 'pointer'
+                                    }}
+                                >
+                                    {isValidating ? 'Checking...' : isAvailable ? 'Reserve This Room' : 'Already Booked'}
+                                </button>
                             </form>
 
                             <p className="booking-note">

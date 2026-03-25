@@ -7,7 +7,7 @@ import { useRooms } from '../../hooks/useRooms';
 
 
 // Import shared room data
-import { ROOM_CATEGORIES } from '../../constants/roomData';
+import { ROOM_CATEGORIES } from './constants/roomData';
 
 
 

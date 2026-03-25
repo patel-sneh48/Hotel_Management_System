@@ -8,7 +8,7 @@ import { useAuth } from '../../context/AuthContext';
 
 
 // Import shared room data
-import { ROOM_CATEGORIES } from '../../constants/roomData';
+import { ROOM_CATEGORIES } from './constants/roomData';
 
 
 
@@ -22,10 +22,46 @@ const RoomCategoryDetail = () => {
     const { user } = useAuth();
     const [showBooking, setShowBooking] = useState(false);
     const [checkIn, setCheckIn] = useState('');
+    const [checkInTime, setCheckInTime] = useState('12:00 PM');
     const [checkOut, setCheckOut] = useState('');
+    const [checkOutTime, setCheckOutTime] = useState('11:00 AM');
     const [bookingError, setBookingError] = useState('');
+    const [isAvailable, setIsAvailable] = useState(true);
+    const [isValidating, setIsValidating] = useState(false);
 
     const today = new Date().toISOString().split('T')[0];
+
+    // Check availability when dates change
+    useEffect(() => {
+        const checkRoomAvailability = async () => {
+            if (!checkIn || !checkOut) return;
+            
+            const start = new Date(checkIn);
+            const end = new Date(checkOut);
+            if (end <= start) return;
+
+            setIsValidating(true);
+            setBookingError('');
+            
+            try {
+                const response = await fetch(`http://localhost:5000/api/bookings/check-availability?roomTitle=${encodeURIComponent(category.title)}&checkIn=${checkIn}&checkOut=${checkOut}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    setIsAvailable(data.available);
+                    if (!data.available) {
+                        setBookingError(data.message);
+                    }
+                }
+            } catch (err) {
+                console.error("Availability check error:", err);
+            } finally {
+                setIsValidating(false);
+            }
+        };
+
+        checkRoomAvailability();
+    }, [checkIn, checkOut, category.title]);
 
     const handleInitialBookClick = () => {
         if (!user) {
@@ -59,7 +95,7 @@ const RoomCategoryDetail = () => {
             imageUrl: category.images[0],
         };
 
-        navigate('/checkout', { state: { room, checkIn, checkOut, nights, totalAmount } });
+        navigate('/checkout', { state: { room, checkIn, checkOut, checkInTime, checkOutTime, nights, totalAmount } });
     };
 
     useEffect(() => {
@@ -222,7 +258,7 @@ const RoomCategoryDetail = () => {
 
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#64748b', marginBottom: '0.4rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Check In</label>
+                                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#64748b', marginBottom: '0.4rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Check In Date</label>
                                         <input
                                             type="date"
                                             value={checkIn}
@@ -231,12 +267,28 @@ const RoomCategoryDetail = () => {
                                             style={{
                                                 width: '100%', padding: '0.65rem 0.75rem',
                                                 border: '1px solid #e2e8f0', borderRadius: '8px',
-                                                fontSize: '0.9rem', color: '#1e293b', outline: 'none'
+                                                fontSize: '0.9rem', color: '#1e293b', outline: 'none', marginBottom: '0.5rem'
                                             }}
                                         />
+                                        <select 
+                                            value={checkInTime} 
+                                            onChange={e => setCheckInTime(e.target.value)}
+                                            style={{
+                                                width: '100%', padding: '0.65rem 0.75rem',
+                                                border: '1px solid #e2e8f0', borderRadius: '8px',
+                                                fontSize: '0.9rem', color: '#334155', outline: 'none'
+                                            }}
+                                        >
+                                            <option>09:00 AM</option>
+                                            <option>10:00 AM</option>
+                                            <option>11:00 AM</option>
+                                            <option>12:00 PM</option>
+                                            <option>01:00 PM</option>
+                                            <option>02:00 PM</option>
+                                        </select>
                                     </div>
                                     <div>
-                                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#64748b', marginBottom: '0.4rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Check Out</label>
+                                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: 600, color: '#64748b', marginBottom: '0.4rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Check Out Date</label>
                                         <input
                                             type="date"
                                             value={checkOut}
@@ -245,14 +297,44 @@ const RoomCategoryDetail = () => {
                                             style={{
                                                 width: '100%', padding: '0.65rem 0.75rem',
                                                 border: '1px solid #e2e8f0', borderRadius: '8px',
-                                                fontSize: '0.9rem', color: '#1e293b', outline: 'none'
+                                                fontSize: '0.9rem', color: '#1e293b', outline: 'none', marginBottom: '0.5rem'
                                             }}
                                         />
+                                        <select 
+                                            value={checkOutTime} 
+                                            onChange={e => setCheckOutTime(e.target.value)}
+                                            style={{
+                                                width: '100%', padding: '0.65rem 0.75rem',
+                                                border: '1px solid #e2e8f0', borderRadius: '8px',
+                                                fontSize: '0.9rem', color: '#334155', outline: 'none'
+                                            }}
+                                        >
+                                            <option>10:00 AM</option>
+                                            <option>11:00 AM</option>
+                                            <option>12:00 PM</option>
+                                            <option>01:00 PM</option>
+                                            <option>02:00 PM</option>
+                                        </select>
                                     </div>
                                 </div>
 
                                 {bookingError && (
-                                    <p style={{ color: '#ef4444', fontSize: '0.85rem', marginBottom: '0.75rem', textAlign: 'center' }}>{bookingError}</p>
+                                    <div style={{ 
+                                        padding: '0.75rem', 
+                                        background: '#fef2f2', 
+                                        border: '1px solid #fee2e2', 
+                                        borderRadius: '8px', 
+                                        marginBottom: '1rem',
+                                        textAlign: 'center',
+                                        animation: 'shake 0.4s ease-in-out'
+                                    }}>
+                                        <p style={{ color: '#ef4444', fontSize: '0.85rem', fontWeight: 'bold', margin: 0 }}>
+                                            ⚠️ {bookingError}
+                                        </p>
+                                        <p style={{ color: '#ef4444', fontSize: '0.75rem', marginTop: '0.2rem' }}>
+                                            Please try another room or different dates.
+                                        </p>
+                                    </div>
                                 )}
 
                                 {checkIn && checkOut && new Date(checkOut) > new Date(checkIn) && (
@@ -276,9 +358,17 @@ const RoomCategoryDetail = () => {
                                     <button
                                         onClick={handleBook}
                                         className="btn btn-primary"
-                                        style={{ flex: 2, padding: '0.8rem', borderRadius: '10px', fontSize: '0.95rem' }}
+                                        disabled={!isAvailable || isValidating}
+                                        style={{ 
+                                            flex: 2, 
+                                            padding: '0.8rem', 
+                                            borderRadius: '10px', 
+                                            fontSize: '0.95rem',
+                                            opacity: (!isAvailable || isValidating) ? 0.6 : 1,
+                                            cursor: (!isAvailable || isValidating) ? 'not-allowed' : 'pointer'
+                                        }}
                                     >
-                                        Proceed to Checkin →
+                                        {isValidating ? 'Checking...' : isAvailable ? 'Proceed to Checkin →' : 'Already Booked'}
                                     </button>
                                 </div>
                             </div>
@@ -293,6 +383,13 @@ const RoomCategoryDetail = () => {
             </div>
 
             <Footer />
+            <style>{`
+                @keyframes shake {
+                    0%, 100% { transform: translateX(0); }
+                    25% { transform: translateX(-5px); }
+                    75% { transform: translateX(5px); }
+                }
+            `}</style>
         </div>
     );
 };

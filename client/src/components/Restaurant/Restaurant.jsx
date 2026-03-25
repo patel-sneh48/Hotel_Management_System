@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import { useBasket } from '../../context/BasketContext';
 import Navbar from '../Home/Navbar';
 import Footer from '../Home/Footer';
-import { Coffee, Utensils, Wine, Star, Clock, MapPin, Phone, Mail } from 'lucide-react';
+import { Coffee, Utensils, Wine, Star, Clock, MapPin, Phone, Mail, ShoppingBasket } from 'lucide-react';
 
 // Using the generated images
 import heroImage from '../../assets/restaurant/hero.png';
@@ -54,25 +56,25 @@ const menuData = {
         {
             type: "Starters",
             dishes: [
-                { name: "Seared Scallops with Lemon Butter", price: "$28", desc: "Pan-seared to perfection, finished with brown butter and citrus", image: signatureScallops },
-                { name: "Tuna Tartare with Avocado & Citrus Dressing", price: "$32", desc: "Fresh Ahi tuna, avocado mousse, wasabi pearls", image: signatureTuna },
-                { name: "Burrata with Heirloom Tomatoes & Basil Oil", price: "$26", desc: "Creamy burrata, balsamic reduction, basil oil", image: signatureBurrata }
+                { name: "Seared Scallops with Lemon Butter", price: "$28", desc: "Pan-seared to perfection, finished with brown butter and citrus. A sublime opening act with a velvety finish.", ingredients: ["Diver Scallops", "Brown Butter", "Lemon Zest", "Micro Herbs", "Sea Salt"], image: signatureScallops },
+                { name: "Tuna Tartare with Avocado & Citrus Dressing", price: "$32", desc: "Fresh Ahi tuna, silky avocado mousse, pop of wasabi pearls and a bright citrus dressing.", ingredients: ["Ahi Tuna", "Avocado Mousse", "Wasabi Pearls", "Citrus Dressing", "Sesame Oil"], image: signatureTuna },
+                { name: "Burrata with Heirloom Tomatoes & Basil Oil", price: "$26", desc: "Creamy Italian burrata on a bed of heirloom tomatoes, finished with balsamic reduction and vibrant basil oil.", ingredients: ["Burrata", "Heirloom Tomatoes", "Basil Oil", "Balsamic Reduction", "Focaccia"], image: signatureBurrata }
             ]
         },
         {
             type: "Main Course",
             dishes: [
-                { name: "Wagyu Beef Tenderloin with Truffle Sauce", price: "$68", desc: "Truffle sauce, potato pavé, charred asparagus", image: signatureWagyu },
-                { name: "Herb-Crusted Rack of Lamb with Red Wine Jus", price: "$52", desc: "Rosemary jus, mint pea purée, roasted carrots", image: signatureLamb },
-                { name: "Chilean Sea Bass with Champagne Cream", price: "$58", desc: "Champagne saffron sauce, leek fondant", image: signatureSeaBass }
+                { name: "Wagyu Beef Tenderloin with Truffle Sauce", price: "$68", desc: "A5 Wagyu seared to rosy perfection, resting in a velvety black truffle sauce with crispy potato pavé and charred asparagus.", ingredients: ["A5 Wagyu", "Black Truffle", "Potato Pavé", "Asparagus", "Demi-Glace"], image: signatureWagyu },
+                { name: "Herb-Crusted Rack of Lamb with Red Wine Jus", price: "$52", desc: "Frenched rack of lamb encrusted with rosemary and breadcrumbs, served with silky mint pea purée and roasted heritage carrots.", ingredients: ["Rack of Lamb", "Rosemary", "Mint Pea Purée", "Red Wine Jus", "Heritage Carrots"], image: signatureLamb },
+                { name: "Chilean Sea Bass with Champagne Cream", price: "$58", desc: "Buttery sea bass fillet on a langoustine leek fondant, draped in a champagne-saffron cream sauce.", ingredients: ["Chilean Sea Bass", "Champagne", "Saffron", "Leek Fondant", "Langoustine Bisque"], image: signatureSeaBass }
             ]
         },
         {
             type: "Desserts",
             dishes: [
-                { name: "Valrhona Chocolate Fondant", price: "$18", desc: "Warm molten center, Fleur de Sel, vanilla bean gelato", image: signatureFondant },
-                { name: "Vanilla Bean Crème Brûlée", price: "$16", desc: "Madagascar vanilla, caramelized sugar, fresh berries", image: signatureBrulee },
-                { name: "Raspberry Mille-Feuille", price: "$22", desc: "Crispy layers of puff pastry, vanilla diplomat cream, fresh raspberries", image: signatureMilleFeuille }
+                { name: "Valrhona Chocolate Fondant", price: "$18", desc: "Warm molten Valrhona chocolate center dusted with Fleur de Sel, accompanied by hand-churned vanilla bean gelato.", ingredients: ["Valrhona 72% Chocolate", "Fleur de Sel", "Vanilla Gelato", "Cocoa Powder", "Salted Caramel"], image: signatureFondant },
+                { name: "Vanilla Bean Crème Brûlée", price: "$16", desc: "Silky Madagascar vanilla custard beneath a perfectly caramelized sugar crust, garnished with fresh seasonal berries.", ingredients: ["Madagascar Vanilla", "Cream", "Egg Yolk", "Demerara Sugar", "Fresh Berries"], image: signatureBrulee },
+                { name: "Raspberry Mille-Feuille", price: "$22", desc: "Crispy layers of caramelized puff pastry filled with vanilla diplomat cream and crowned with fresh raspberries.", ingredients: ["Puff Pastry", "Vanilla Diplomat Cream", "Fresh Raspberries", "Raspberry Coulis", "Icing Sugar"], image: signatureMilleFeuille }
             ]
         }
     ],
@@ -80,25 +82,25 @@ const menuData = {
         {
             type: "Starters",
             dishes: [
-                { name: "Galouti Kebab with Saffron Paratha", price: "$26", desc: "Lucknowi lamb patties, saffron paratha, mint chutney", image: indianGalouti },
-                { name: "Murgh Malai Kebab", price: "$24", desc: "Creamy chicken skewers, cheese, garlic, green chilies", image: indianMurghMalai },
-                { name: "Tandoori Broccoli with Mint Chutney", price: "$20", desc: "Spiced hung curd marinade, char-grilled", image: indianBroccoli }
+                { name: "Galouti Kebab with Saffron Paratha", price: "$26", desc: "Impossibly tender Lucknowi lamb patties infused with over 100 spices, served on saffron-laced paratha with mint chutney.", ingredients: ["Minced Lamb", "Saffron", "Raw Papaya", "Kewra Water", "Mint Chutney"], image: indianGalouti },
+                { name: "Murgh Malai Kebab", price: "$24", desc: "Succulent chicken skewers marinated in triple cream, processed cheese and aromatic garlic, char-grilled in a tandoor.", ingredients: ["Chicken Breast", "Triple Cream", "Processed Cheese", "Garlic", "Green Chili"], image: indianMurghMalai },
+                { name: "Tandoori Broccoli with Mint Chutney", price: "$20", desc: "Large broccoli florets wrapped in a smoky hung curd marinade, char-grilled in a traditional tandoor until perfectly blistered.", ingredients: ["Broccoli", "Hung Curd", "Carom Seeds", "Chaat Masala", "Lemon"], image: indianBroccoli }
             ]
         },
         {
             type: "Main Course",
             dishes: [
-                { name: "Murgh Makhani (Butter Chicken)", price: "$38", desc: "Smoked chicken, velvet tomato gravy, artisanal butter", image: indianButterChicken },
-                { name: "Rogan Josh – Kashmiri Lamb Curry", price: "$42", desc: "Slow-cooked Kashmiri lamb, aromatic spices", image: indianRoganJosh },
-                { name: "Paneer Lababdar", price: "$32", desc: "Cottage cheese cubes, creamy tomato and onion masala", image: indianPaneer }
+                { name: "Murgh Makhani (Butter Chicken)", price: "$38", desc: "Smoky tandoor chicken in a rich, velvety tomato-fenugreek gravy finished with artisanal cultured butter and cream.", ingredients: ["Chicken", "Tomato Gravy", "Fenugreek", "Artisanal Butter", "Cream"], image: indianButterChicken },
+                { name: "Rogan Josh – Kashmiri Lamb Curry", price: "$42", desc: "Slow-braised Kashmiri lamb in a deeply aromatic sauce of dried Kashmiri chilies, whole spices and saffron-laced yogurt.", ingredients: ["Kashmiri Lamb", "Kashmiri Chili", "Saffron Yogurt", "Whole Spices", "Fried Onion"], image: indianRoganJosh },
+                { name: "Paneer Lababdar", price: "$32", desc: "Pillowy cottage cheese cubes bathed in a creamy, slow-cooked tomato and caramelized onion masala with a hint of cardamom.", ingredients: ["Paneer", "Tomato Onion Masala", "Cardamom", "Cashew Paste", "Fresh Cream"], image: indianPaneer }
             ]
         },
         {
             type: "Desserts",
             dishes: [
-                { name: "Shahi Tukda with Rabri", price: "$18", desc: "Golden bread pudding, rabri, silver leaf, nut soil", image: indianShahiTukda },
-                { name: "Rasmalai Pistachio Cream", price: "$16", desc: "Poached cottage cheese dumplings, saffron milk, pistachio dust", image: indianRasmalai },
-                { name: "Kulfi Falooda", price: "$15", desc: "Traditional Indian ice cream with rose syrup and vermicelli", image: indianKulfi }
+                { name: "Shahi Tukda with Rabri", price: "$18", desc: "Royal Mughal bread pudding — crispy ghee-fried bread soaked in condensed milk, crowned with saffron rabri, silver leaf and crushed nut soil.", ingredients: ["Brioche", "Rabri", "Saffron", "Silver Leaf", "Pistachio Soil"], image: indianShahiTukda },
+                { name: "Rasmalai Pistachio Cream", price: "$16", desc: "Feather-light cottage cheese discs poached in saffron milk, dusted with pistachio powder and rose petal dust.", ingredients: ["Chhena", "Saffron Milk", "Pistachio Dust", "Rose Water", "Cardamom"], image: indianRasmalai },
+                { name: "Kulfi Falooda", price: "$15", desc: "Creamy traditional malai kulfi on a bed of basil seeds and rose-syrup vermicelli, a timeless Indian street dessert elevated.", ingredients: ["Malai Kulfi", "Rose Syrup", "Vermicelli", "Basil Seeds", "Rabri"], image: indianKulfi }
             ]
         }
     ],
@@ -106,25 +108,25 @@ const menuData = {
         {
             type: "Starters",
             dishes: [
-                { name: "Chicken Satay with Peanut Sauce", price: "$22", desc: "Grilled skewers, peanut sauce, cucumber relish", image: asianSatay },
-                { name: "Crispy Prawn Tempura", price: "$28", desc: "Lightly battered jumbo prawns, tentsuyu sauce", image: asianTempura },
-                { name: "Vegetable Crystal Dim Sum", price: "$20", desc: "Hand-rolled translucent dumplings, shiitake, water chestnut", image: asianDimSum }
+                { name: "Chicken Satay with Peanut Sauce", price: "$22", desc: "Marinated coconut-lemongrass chicken skewers grilled over charcoal, served with rich peanut dipping sauce and cucumber relish.", ingredients: ["Chicken Thigh", "Lemongrass", "Coconut Milk", "Peanut Sauce", "Cucumber Relish"], image: asianSatay },
+                { name: "Crispy Prawn Tempura", price: "$28", desc: "Jumbo tiger prawns in an impossibly light, airy batter, twice-fried for maximum crunch, served with classic tentsuyu dipping sauce.", ingredients: ["Tiger Prawns", "Tempura Batter", "Tentsuyu Sauce", "Daikon Radish", "Ginger"], image: asianTempura },
+                { name: "Vegetable Crystal Dim Sum", price: "$20", desc: "Hand-pleated translucent rice dumplings filled with a fragrant medley of shiitake mushrooms, water chestnuts and bamboo shoots.", ingredients: ["Rice Flour", "Shiitake Mushroom", "Water Chestnut", "Bamboo Shoots", "Sesame Oil"], image: asianDimSum }
             ]
         },
         {
             type: "Main Course",
             dishes: [
-                { name: "Thai Green Curry Chicken", price: "$36", desc: "Coconut milk, kaffir lime, pea aubergine", image: asianGreenCurry },
-                { name: "Black Pepper Beef Stir Fry", price: "$44", desc: "Stir-fried tenderloin, garlic, black pepper sauce", image: asianBeef },
-                { name: "Teriyaki Glazed Salmon", price: "$42", desc: "Norwegian salmon, mirin-soy glaze, bok choy", image: asianSalmon }
+                { name: "Thai Green Curry Chicken", price: "$36", desc: "Aromatic house-made green curry paste simmered in coconut milk with free-range chicken, pea aubergine and fresh kaffir lime leaves.", ingredients: ["Green Curry Paste", "Coconut Milk", "Free-Range Chicken", "Kaffir Lime", "Pea Aubergine"], image: asianGreenCurry },
+                { name: "Black Pepper Beef Stir Fry", price: "$44", desc: "Wok-charred beef tenderloin tossed in a bold, fragrant black pepper and oyster sauce with crispy garlic and spring onion.", ingredients: ["Beef Tenderloin", "Black Pepper Sauce", "Oyster Sauce", "Garlic", "Spring Onion"], image: asianBeef },
+                { name: "Teriyaki Glazed Salmon", price: "$42", desc: "Norwegian Atlantic salmon lacquered with a house-made mirin-soy teriyaki glaze, served with steamed bok choy and jasmine rice.", ingredients: ["Norwegian Salmon", "Mirin", "Soy Sauce", "Sake", "Bok Choy"], image: asianSalmon }
             ]
         },
         {
             type: "Desserts",
             dishes: [
-                { name: "Mango Sticky Rice", price: "$18", desc: "Sweet coconut rice, fresh Thai mango, gold leaf", image: asianMango },
-                { name: "Matcha Cheesecake", price: "$16", desc: "Japanese matcha, black sesame crust", image: asianMatcha },
-                { name: "Mochi Ice Cream Trio", price: "$18", desc: "Assortment of traditional mochi filled with rich ice cream", image: asianMochi }
+                { name: "Mango Sticky Rice", price: "$18", desc: "Glutinous sticky rice cooked in sweet coconut milk, paired with ripe Alphonso mango slices and a drizzle of gold-flecked coconut cream.", ingredients: ["Glutinous Rice", "Coconut Milk", "Alphonso Mango", "Palm Sugar", "Gold Leaf"], image: asianMango },
+                { name: "Matcha Cheesecake", price: "$16", desc: "Velvety Japanese ceremonial-grade matcha baked cheesecake on a toasted black sesame crust, dusted with matcha snow.", ingredients: ["Ceremonial Matcha", "Cream Cheese", "Black Sesame Crust", "White Chocolate", "Matcha Snow"], image: asianMatcha },
+                { name: "Mochi Ice Cream Trio", price: "$18", desc: "Three hand-made glutinous rice mochi filled with premium ice cream in vanilla bean, dark chocolate and strawberry yuzu flavours.", ingredients: ["Glutinous Rice", "Vanilla Bean", "Dark Chocolate", "Strawberry Yuzu", "Cornstarch"], image: asianMochi }
             ]
         }
     ],
@@ -132,34 +134,123 @@ const menuData = {
         {
             type: "Starters",
             dishes: [
-                { name: "Burrata with Cherry Tomatoes & Olive Oil", price: "$26", desc: "Basil oil, toasted focaccia, balsamic pearls", image: medBurrata },
-                { name: "Beef Carpaccio with Parmesan Shavings", price: "$28", desc: "Paper-thin wagyu, arugula, truffle aioli, parmesan", image: medCarpaccio },
-                { name: "Classic Bruschetta with Tomato & Basil", price: "$22", desc: "Toasted artisan bread, vine-ripened tomatoes, garlic, fresh basil", image: medBruschetta }
+                { name: "Burrata with Cherry Tomatoes & Olive Oil", price: "$26", desc: "Hand-pulled Pugliese burrata on a bed of roasted and raw cherry tomatoes, finished with Sicilian basil oil, balsamic pearls and warm focaccia.", ingredients: ["Burrata", "Cherry Tomatoes", "Basil Oil", "Balsamic Pearls", "Focaccia"], image: medBurrata },
+                { name: "Beef Carpaccio with Parmesan Shavings", price: "$28", desc: "Paper-thin wagyu beef, dressed with truffle aioli, peppery arugula, shaved 24-month Parmigiano and a drizzle of cold-pressed extra virgin olive oil.", ingredients: ["Wagyu Beef", "Truffle Aioli", "Arugula", "Parmigiano Reggiano", "Extra Virgin Olive Oil"], image: medCarpaccio },
+                { name: "Classic Bruschetta with Tomato & Basil", price: "$22", desc: "Toasted sourdough rubbed with garlic, piled high with vine-ripened heirloom tomatoes, fresh basil and a splash of aged balsamic.", ingredients: ["Sourdough", "Heirloom Tomatoes", "Garlic", "Fresh Basil", "Aged Balsamic"], image: medBruschetta }
             ]
         },
         {
             type: "Main Course",
             dishes: [
-                { name: "Lobster Ravioli with Cream Sauce", price: "$48", desc: "Handmade pasta, bisque reduction, fresh herbs", image: medRavioli },
-                { name: "Truffle Mushroom Risotto", price: "$38", desc: "Arborio rice, wild mushrooms, white truffle oil, parmesan", image: medRisotto },
-                { name: "Grilled Mediterranean Sea Bass", price: "$52", desc: "Herb-baked, roasted vegetables, lemon emulsion", image: medSeaBass }
+                { name: "Lobster Ravioli with Cream Sauce", price: "$48", desc: "Hand-pulled egg-yolk pasta parcels filled with Atlantic lobster and ricotta, bathed in a rich bisque reduction with fresh tarragon.", ingredients: ["Atlantic Lobster", "Egg Pasta", "Ricotta", "Lobster Bisque", "Tarragon"], image: medRavioli },
+                { name: "Truffle Mushroom Risotto", price: "$38", desc: "Slow-stirred Carnaroli rice with wild porcini and cremini mushrooms, finished with white truffle oil, aged parmesan and a truffle carpaccio.", ingredients: ["Carnaroli Rice", "Porcini Mushrooms", "White Truffle Oil", "Parmigiano", "Truffle Carpaccio"], image: medRisotto },
+                { name: "Grilled Mediterranean Sea Bass", price: "$52", desc: "Whole spigola filleted and herb-baked, served over roasted seasonal vegetables with a bright lemon-caper emulsion.", ingredients: ["Mediterranean Sea Bass", "Herbs", "Roasted Vegetables", "Lemon Emulsion", "Capers"], image: medSeaBass }
             ]
         },
         {
             type: "Desserts",
             dishes: [
-                { name: "Classic Tiramisu", price: "$18", desc: "Espresso-soaked ladyfingers, mascarpone, cocoa", image: medTiramisu },
-                { name: "Vanilla Panna Cotta with Berry Compote", price: "$16", desc: "Vanilla bean, raspberry coulis, mint", image: medPannaCotta },
-                { name: "Cannoli with Ricotta Cream", price: "$14", desc: "Crispy pastry shells filled with sweet ricotta and chocolate chips", image: medCannoli }
+                { name: "Classic Tiramisu", price: "$18", desc: "Savoiardi ladyfingers soaked in double espresso and dark rum, layered with silky Venetian mascarpone and dusted with Valrhona cocoa.", ingredients: ["Mascarpone", "Savoiardi", "Double Espresso", "Dark Rum", "Valrhona Cocoa"], image: medTiramisu },
+                { name: "Vanilla Panna Cotta with Berry Compote", price: "$16", desc: "Silky vanilla bean panna cotta, set to a perfect trembling wobble, served with warm raspberry and blackberry compote and fresh mint.", ingredients: ["Cream", "Vanilla Bean", "Gelatin", "Raspberry Compote", "Fresh Mint"], image: medPannaCotta },
+                { name: "Cannoli with Ricotta Cream", price: "$14", desc: "Freshly fried Sicilian pastry shells filled to order with sweet sheeps-milk ricotta cream, dark chocolate chips and candied orange peel.", ingredients: ["Ricotta", "Pastry Shell", "Dark Chocolate", "Candied Orange", "Pistachio Dust"], image: medCannoli }
             ]
         }
     ]
 };
 
 const Restaurant = () => {
+    const { user } = useAuth();
+    const { addToBasket, totalItems } = useBasket();
+    const navigate = useNavigate();
     const [activeCategory, setActiveCategory] = React.useState('signature');
     const [selectedDish, setSelectedDish] = React.useState(null);
+    const [showAuthPrompt, setShowAuthPrompt] = React.useState(false);
+    const [pendingAction, setPendingAction] = React.useState(null); // 'basket' | 'room' | 'reserve'
+    const [loadingReserve, setLoadingReserve] = React.useState(false);
+    const [flyingDish, setFlyingDish] = React.useState(null);
+    const [activeBooking, setActiveBooking] = React.useState(null);
+
+    // Reservation States
+    const [reserveDate, setReserveDate] = React.useState(new Date().toISOString().split('T')[0]);
+    const [reserveGuests, setReserveGuests] = React.useState('2 People');
+    const [reserveTime, setReserveTime] = React.useState('7:00 PM');
+    const [showReserveConfirm, setShowReserveConfirm] = React.useState(false);
+    const [bookedTable, setBookedTable] = React.useState('');
+
     const menuRef = React.useRef(null);
+
+    // Guard: if user is not logged in, show auth prompt; otherwise run the action
+    const handleAuthAction = (actionType, dish) => {
+        if (!user) {
+            setPendingAction(actionType);
+            setShowAuthPrompt(true);
+        } else {
+            if (actionType === 'basket') {
+                setFlyingDish({
+                    image: dish.image,
+                    x: window.innerWidth / 2,
+                    y: window.innerHeight / 2
+                });
+                addToBasket(dish);
+                setSelectedDish(null);
+
+                // Reset flying dish after animation
+                setTimeout(() => setFlyingDish(null), 1000);
+            } else if (actionType === 'room') {
+                if (activeBooking) {
+                    navigate('/room-service-order', { state: { dish: selectedDish, activeBooking } });
+                } else {
+                    alert("🛎️ Room service is only available for guests with an active booking. Please book a room first.");
+                }
+            }
+        }
+    };
+
+    const handleReserveSubmit = async (e) => {
+        if (e) e.preventDefault();
+        
+        if (!user) {
+            setPendingAction('reserve');
+            setShowAuthPrompt(true);
+            return;
+        }
+
+        setLoadingReserve(true);
+        try {
+            const tableNum = Math.floor(Math.random() * 20) + 1;
+            const tableStr = `Table ${tableNum}`;
+            
+            const token = localStorage.getItem('token');
+            const response = await fetch('http://localhost:5000/api/reservations', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    guestName: user.name,
+                    email: user.email,
+                    date: reserveDate,
+                    time: reserveTime,
+                    guests: reserveGuests,
+                    tableNumber: tableStr
+                })
+            });
+
+            const data = await response.json();
+            if (data.success) {
+                setBookedTable(tableStr);
+                setShowReserveConfirm(true);
+            } else {
+                alert(data.message || "Failed to book table. Please try again.");
+            }
+        } catch (error) {
+            console.error("Reservation error:", error);
+            alert("An error occurred. Please check your connection.");
+        } finally {
+            setLoadingReserve(false);
+        }
+    };
 
     const handleCategoryChange = (category) => {
         setActiveCategory(category);
@@ -179,10 +270,30 @@ const Restaurant = () => {
         }, 100);
     };
 
-    // Scroll to top on mount
+    // Scroll to top on mount and fetch user bookings
     useEffect(() => {
         window.scrollTo(0, 0);
-    }, []);
+
+        const fetchActiveBooking = async () => {
+            if (user) {
+                try {
+                    const token = localStorage.getItem('token');
+                    const res = await fetch('http://localhost:5000/api/bookings/my-bookings', {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    const data = await res.json();
+                    if (data.success && data.bookings.length > 0) {
+                        // For simplicity, take the first/latest booking
+                        setActiveBooking(data.bookings[0]);
+                    }
+                } catch (err) {
+                    console.error('Error fetching bookings:', err);
+                }
+            }
+        };
+
+        fetchActiveBooking();
+    }, [user]);
 
     // Prevent scrolling when modal is open
     useEffect(() => {
@@ -273,7 +384,7 @@ const Restaurant = () => {
                 <div className="container">
                     <div className="section-header">
                         <h3 className="section-title text-gold">Dining <span className="italic-font">Menu</span></h3>
-                        <p className="hero-subtitle" >Meticulously curated flavors for a refined palate</p>
+                        <p className="section-subtitle-text">Meticulously curated flavors for a refined palate</p>
                     </div>
 
                     <div className="menu-categories-grid">
@@ -328,23 +439,41 @@ const Restaurant = () => {
                             </div>
                         </div>
                         <div className="reserve-form-box">
-                            <form className="luxury-mini-form">
+                            <form className="luxury-mini-form" onSubmit={handleReserveSubmit}>
                                 <div className="form-split">
-                                    <input type="date" className="luxury-input" defaultValue={new Date().toISOString().split('T')[0]} />
-                                    <select className="luxury-input" >
+                                    <input
+                                        type="date"
+                                        className="luxury-input"
+                                        value={reserveDate}
+                                        onChange={(e) => setReserveDate(e.target.value)}
+                                    />
+                                    <select
+                                        className="luxury-input"
+                                        value={reserveGuests}
+                                        onChange={(e) => setReserveGuests(e.target.value)}
+                                    >
+                                        <option>1 Person</option>
                                         <option>2 People</option>
+                                        <option>3 People</option>
                                         <option>4 People</option>
+                                        <option>5 People</option>
                                         <option>6+ People</option>
                                     </select>
                                 </div>
-                                <select className="luxury-input">
-                                    <option >7:00 AM</option>
+                                <select
+                                    className="luxury-input"
+                                    value={reserveTime}
+                                    onChange={(e) => setReserveTime(e.target.value)}
+                                >
+                                    <option>7:00 AM</option>
                                     <option>8:00 AM</option>
                                     <option>9:00 AM</option>
+                                    <option>10:00 AM</option>
                                     <option>11:00 AM</option>
                                     <option>12:00 PM</option>
                                     <option>1:00 PM</option>
                                     <option>2:00 PM</option>
+                                    <option>3:00 PM</option>
                                     <option>4:00 PM</option>
                                     <option>5:00 PM</option>
                                     <option>6:00 PM</option>
@@ -354,7 +483,7 @@ const Restaurant = () => {
                                     <option>10:00 PM</option>
                                     <option>11:00 PM</option>
                                 </select>
-                                <button type="button" className="btn btn-primary w-100">Confirm Availability</button>
+                                <button type="submit" className="btn btn-primary w-100">Confirm Availability</button>
                             </form>
                         </div>
                     </div>
@@ -416,7 +545,7 @@ const Restaurant = () => {
 
             <Footer />
 
-            {/* Dish Details Modal */}
+            {/* Dish Details Modal — Split Panel */}
             <AnimatePresence>
                 {selectedDish && (
                     <motion.div
@@ -428,42 +557,187 @@ const Restaurant = () => {
                     >
                         <motion.div
                             className="dish-modal-content"
-                            initial={{ y: 50, opacity: 0, scale: 0.95 }}
+                            initial={{ y: 60, opacity: 0, scale: 0.93 }}
                             animate={{ y: 0, opacity: 1, scale: 1 }}
-                            exit={{ y: 20, opacity: 0, scale: 0.95 }}
-                            transition={{ duration: 0.3, ease: "easeOut" }}
+                            exit={{ y: 30, opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                             onClick={(e) => e.stopPropagation()}
                         >
+                            {/* ── Close Button ── */}
                             <button className="modal-close-btn" onClick={() => setSelectedDish(null)}>×</button>
-                            
-                            <div className="modal-image-wrapper">
-                                <img src={selectedDish.image} alt={selectedDish.name} />
-                                <div className="modal-price-badge">{selectedDish.price}</div>
-                            </div>
-                            
-                            <div className="modal-text-content">
-                                <h3>{selectedDish.name}</h3>
-                                <div className="modal-divider"></div>
-                                <p className="modal-desc">{selectedDish.desc}</p>
-                                
-                                <div className="modal-actions">
-                                    <button 
-                                        className="btn btn-outline-gold modal-btn"
-                                        onClick={() => {
-                                            alert(`Room service requested for ${selectedDish.name}. Added to your bill.`);
-                                            setSelectedDish(null);
-                                        }}
-                                    >
-                                        <Utensils size={18} /> Room Service
-                                    </button>
-                                    <a 
-                                        href="#reserve" 
-                                        className="btn btn-primary modal-btn"
-                                        onClick={() => setSelectedDish(null)}
-                                    >
-                                        Reserve Table
-                                    </a>
+
+                            <div className="modal-split-body">
+                                {/* ── LEFT: Image + Price ── */}
+                                <div className="modal-left-panel">
+                                    <img src={selectedDish.image} alt={selectedDish.name} className="modal-dish-img" />
+                                    <div className="modal-price-chip">{selectedDish.price}</div>
+                                    <div className="modal-left-glow" />
                                 </div>
+
+                                {/* ── RIGHT: Info ── */}
+                                <div className="modal-right-panel">
+                                    <div className="modal-right-inner">
+                                        <p className="modal-cuisine-tag">Chef's Selection</p>
+                                        <h3 className="modal-dish-name">{selectedDish.name}</h3>
+                                        <div className="modal-gold-bar" />
+
+                                        <p className="modal-desc-text">{selectedDish.desc}</p>
+
+                                        {selectedDish.ingredients && selectedDish.ingredients.length > 0 && (
+                                            <div className="modal-ingredients-block">
+                                                <p className="modal-ingredients-label">Key Ingredients</p>
+                                                <div className="modal-ingredients-tags">
+                                                    {selectedDish.ingredients.map((ing, i) => (
+                                                        <span key={i} className="ingredient-tag">{ing}</span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* ── Bottom Actions ── */}
+                                    <div className="modal-actions-row">
+                                        <button
+                                            className="modal-action-btn modal-action-basket"
+                                            onClick={() => handleAuthAction('basket', selectedDish)}
+                                        >
+                                            <span className="modal-btn-icon">🛒</span>
+                                            Add to Basket
+                                        </button>
+                                        <button
+                                            className="modal-action-btn modal-action-room"
+                                            onClick={() => handleAuthAction('room', selectedDish)}
+                                        >
+                                            <span className="modal-btn-icon"><Utensils size={16} /></span>
+                                            Room Service
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+
+
+            {/* ─── Auth Prompt Modal ─── */}
+            <AnimatePresence>
+                {showAuthPrompt && (
+                    <motion.div
+                        className="auth-prompt-overlay"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setShowAuthPrompt(false)}
+                    >
+                        <motion.div
+                            className="auth-prompt-box"
+                            initial={{ scale: 0.88, opacity: 0, y: 40 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.92, opacity: 0, y: 20 }}
+                            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button className="auth-prompt-close" onClick={() => setShowAuthPrompt(false)}>×</button>
+
+                            <div className="auth-prompt-icon">
+                                {pendingAction === 'basket' ? '🛒' : '🛎️'}
+                            </div>
+
+                            <h3 className="auth-prompt-title">
+                                {pendingAction === 'basket' ? 'Add to Basket' : 'Room Service'}
+                            </h3>
+                            <div className="auth-prompt-gold-bar" />
+
+                            <p className="auth-prompt-msg">
+                                Please <strong>log in</strong> or <strong>create an account</strong> to
+                                {pendingAction === 'basket' ? ' add items to your basket.' : 
+                                 pendingAction === 'reserve' ? ' make a table reservation.' : ' request room service.'}
+                            </p>
+
+                            <div className="auth-prompt-actions">
+                                <button
+                                    className="auth-btn auth-btn-primary"
+                                    onClick={() => { setShowAuthPrompt(false); navigate('/login'); }}
+                                >
+                                    Login
+                                </button>
+                                <button
+                                    className="auth-btn auth-btn-outline"
+                                    onClick={() => { setShowAuthPrompt(false); navigate('/register'); }}
+                                >
+                                    Sign Up
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* ─── Table Reservation Confirmation Modal ─── */}
+            <AnimatePresence>
+                {showReserveConfirm && (
+                    <motion.div
+                        className="auth-prompt-overlay"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={() => setShowReserveConfirm(false)}
+                    >
+                        <motion.div
+                            className="auth-prompt-box"
+                            initial={{ scale: 0.88, opacity: 0, y: 40 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.92, opacity: 0, y: 20 }}
+                            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button className="auth-prompt-close" onClick={() => setShowReserveConfirm(false)}>×</button>
+
+                            <div className="auth-prompt-icon">🍽️</div>
+
+                            <h3 className="auth-prompt-title">Table Reserved!</h3>
+                            <div className="auth-prompt-gold-bar" />
+
+                            <div className="confirm-details text-center">
+                                <p className="text-gold font-bold" style={{ color: '#d4af37', fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>{bookedTable}</p>
+                                <div className="card-divider" style={{ height: '1px', background: 'rgba(255,255,255,0.1)', margin: '1rem 0' }} />
+
+                                <div className="reservation-summary" style={{ padding: '0 1rem', textAlign: 'left' }}>
+                                    <div className="summary-item" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.6rem', fontSize: '0.95rem' }}>
+                                        <span style={{ color: 'rgba(255,255,255,0.5)' }}>Date:</span>
+                                        <span style={{ color: '#fff', fontWeight: '600' }}>{reserveDate}</span>
+                                    </div>
+                                    <div className="summary-item" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.6rem', fontSize: '0.95rem' }}>
+                                        <span style={{ color: 'rgba(255,255,255,0.5)' }}>Time:</span>
+                                        <span style={{ color: '#fff', fontWeight: '600' }}>{reserveTime}</span>
+                                    </div>
+                                    <div className="summary-item" style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.6rem', fontSize: '0.95rem' }}>
+                                        <span style={{ color: 'rgba(255,255,255,0.5)' }}>Party:</span>
+                                        <span style={{ color: '#fff', fontWeight: '600' }}>{reserveGuests}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="auth-prompt-actions" style={{ marginTop: '2.5rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+                                <button
+                                    className="auth-btn auth-btn-primary"
+                                    onClick={() => setShowReserveConfirm(false)}
+                                    style={{ width: '100%', padding: '1.2rem', fontSize: '1.1rem' }}
+                                >
+                                    Great, See You Then!
+                                </button>
+                                <button
+                                    className="auth-btn auth-btn-outline"
+                                    onClick={() => {
+                                        setShowReserveConfirm(false);
+                                        navigate('/restaurant/basket'); // Navigate to history section in basket
+                                    }}
+                                    style={{ width: '100%', background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.2)' }}
+                                >
+                                    View My Reservations
+                                </button>
                             </div>
                         </motion.div>
                     </motion.div>
@@ -644,6 +918,18 @@ const Restaurant = () => {
 
                 .badge-tag { color: #d4af37; font-size: 0.75rem; font-style: italic; margin-bottom: 0.5rem; }
                 .badge-name { font-weight: 700; line-height: 1.3; }
+
+                .section-header {
+                    text-align: center;
+                    margin-bottom: 5rem;
+                }
+
+                .section-title {
+                    font-size: clamp(2.2rem, 5vw, 4rem);
+                    margin-bottom: 1.5rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.15em;
+                }
 
                 /* ─── MENU ─── */
                 .bg-card-alt { background-color: #0b1120; }
@@ -844,147 +1130,242 @@ const Restaurant = () => {
                     color: #d4af37;
                 }
 
-                /* ─── MODAL STYLES ─── */
+                /* ─── MODAL STYLES (Split Panel) ─── */
                 .dish-modal-overlay {
                     position: fixed;
                     inset: 0;
-                    background: rgba(0, 0, 0, 0.85);
-                    backdrop-filter: blur(8px);
+                    background: rgba(0, 0, 0, 0.88);
+                    backdrop-filter: blur(12px);
                     z-index: 1000;
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    padding: 2rem;
+                    padding: 1.5rem;
                 }
 
                 .dish-modal-content {
-                    background: #0f172a;
-                    border: 1px solid rgba(212, 175, 55, 0.3);
-                    border-radius: 20px;
+                    background: #0d1526;
+                    border: 1px solid rgba(212, 175, 55, 0.25);
+                    border-radius: 24px;
                     width: 100%;
-                    max-width: 600px;
+                    max-width: 880px;
+                    max-height: 90vh;
                     position: relative;
                     overflow: hidden;
-                    box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+                    box-shadow: 0 50px 120px rgba(0,0,0,0.9), 0 0 0 1px rgba(212,175,55,0.08);
+                    display: flex;
+                    flex-direction: column;
                 }
 
+                /* ── Close ── */
                 .modal-close-btn {
                     position: absolute;
                     top: 1rem;
                     right: 1rem;
-                    width: 40px;
-                    height: 40px;
+                    width: 38px;
+                    height: 38px;
                     border-radius: 50%;
-                    background: rgba(0,0,0,0.5);
-                    border: 1px solid rgba(255,255,255,0.2);
+                    background: rgba(0,0,0,0.6);
+                    border: 1px solid rgba(255,255,255,0.15);
                     color: white;
-                    font-size: 1.5rem;
+                    font-size: 1.4rem;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     cursor: pointer;
-                    z-index: 10;
+                    z-index: 20;
                     transition: all 0.3s ease;
+                    line-height: 1;
                 }
-
                 .modal-close-btn:hover {
                     background: #d4af37;
-                    color: black;
+                    color: #000;
                     border-color: #d4af37;
                     transform: rotate(90deg);
                 }
 
-                .modal-image-wrapper {
-                    position: relative;
-                    height: 350px;
-                    width: 100%;
+                /* ── Split Body ── */
+                .modal-split-body {
+                    display: grid;
+                    grid-template-columns: 420px 1fr;
+                    min-height: 520px;
+                    max-height: 88vh;
                 }
 
-                .modal-image-wrapper img {
+                /* ── Left Panel ── */
+                .modal-left-panel {
+                    position: relative;
+                    overflow: hidden;
+                    border-radius: 24px 0 0 24px;
+                }
+                .modal-dish-img {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                    display: block;
+                    transition: transform 0.6s ease;
                 }
-
-                .modal-price-badge {
+                .dish-modal-content:hover .modal-dish-img {
+                    transform: scale(1.04);
+                }
+                .modal-left-glow {
                     position: absolute;
-                    bottom: -1rem;
-                    right: 2rem;
+                    inset: 0;
+                    background: linear-gradient(to right, transparent 60%, #0d1526 100%);
+                    pointer-events: none;
+                }
+                .modal-price-chip {
+                    position: absolute;
+                    bottom: 1.5rem;
+                    left: 1.5rem;
                     background: #d4af37;
                     color: #000;
-                    padding: 0.75rem 2rem;
+                    font-weight: 900;
+                    font-size: 1.4rem;
+                    padding: 0.5rem 1.5rem;
                     border-radius: 50px;
-                    font-weight: 800;
-                    font-size: 1.25rem;
-                    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+                    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+                    letter-spacing: 0.03em;
+                    z-index: 5;
                 }
 
-                .modal-text-content {
-                    padding: 3rem 2rem 2rem;
-                    text-align: center;
+                /* ── Right Panel ── */
+                .modal-right-panel {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    padding: 2.5rem 2rem 2rem;
+                    overflow-y: auto;
                 }
-
-                .modal-text-content h3 {
+                .modal-right-inner {
+                    flex: 1;
+                }
+                .modal-cuisine-tag {
+                    font-size: 0.75rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.25em;
+                    color: #d4af37;
+                    margin-bottom: 0.75rem;
+                    opacity: 0.85;
+                }
+                .modal-dish-name {
                     font-family: 'Algerian', serif;
-                    font-size: 2rem;
+                    font-size: clamp(1.3rem, 2.5vw, 1.9rem);
                     color: #fff;
+                    line-height: 1.25;
                     margin-bottom: 1rem;
                 }
-
-                .modal-divider {
-                    width: 50px;
+                .modal-gold-bar {
+                    width: 48px;
                     height: 3px;
-                    background: #d4af37;
-                    margin: 0 auto 1.5rem;
+                    background: linear-gradient(to right, #d4af37, rgba(212,175,55,0.2));
+                    border-radius: 2px;
+                    margin-bottom: 1.25rem;
+                }
+                .modal-desc-text {
+                    color: #94a3b8;
+                    font-size: 0.97rem;
+                    line-height: 1.75;
+                    margin-bottom: 1.75rem;
                 }
 
-                .modal-desc {
-                    color: #a0aec0;
-                    font-size: 1.1rem;
-                    line-height: 1.6;
-                    margin-bottom: 2.5rem;
+                /* ── Ingredients ── */
+                .modal-ingredients-block {
+                    margin-bottom: 1.5rem;
                 }
-
-                .modal-actions {
+                .modal-ingredients-label {
+                    font-size: 0.72rem;
+                    font-weight: 700;
+                    text-transform: uppercase;
+                    letter-spacing: 0.2em;
+                    color: rgba(255,255,255,0.35);
+                    margin-bottom: 0.75rem;
+                }
+                .modal-ingredients-tags {
                     display: flex;
-                    gap: 1.5rem;
-                    justify-content: center;
+                    flex-wrap: wrap;
+                    gap: 0.5rem;
+                }
+                .ingredient-tag {
+                    background: rgba(212, 175, 55, 0.08);
+                    border: 1px solid rgba(212, 175, 55, 0.22);
+                    color: #d4af37;
+                    font-size: 0.78rem;
+                    font-weight: 600;
+                    padding: 0.3rem 0.85rem;
+                    border-radius: 50px;
+                    letter-spacing: 0.04em;
+                    transition: background 0.2s;
+                }
+                .ingredient-tag:hover {
+                    background: rgba(212, 175, 55, 0.18);
                 }
 
-                .modal-btn {
-                    padding: 0.8rem 2rem;
-                    font-weight: 600;
+                /* ── Action Buttons ── */
+                .modal-actions-row {
+                    display: flex;
+                    gap: 1rem;
+                    justify-content: center;
+                    padding-top: 1.5rem;
+                    border-top: 1px solid rgba(255,255,255,0.06);
+                    margin-top: 1rem;
+                }
+                .modal-action-btn {
+                    flex: 1;
                     display: flex;
                     align-items: center;
+                    justify-content: center;
                     gap: 0.5rem;
+                    padding: 0.85rem 1.25rem;
                     border-radius: 50px;
-                    text-decoration: none;
-                    transition: transform 0.2s, box-shadow 0.2s;
+                    font-weight: 700;
+                    font-size: 0.9rem;
+                    cursor: pointer;
+                    transition: all 0.25s ease;
+                    border: 2px solid transparent;
+                    letter-spacing: 0.03em;
                 }
-
-                .modal-btn:hover {
+                .modal-btn-icon {
+                    display: flex;
+                    align-items: center;
+                    font-size: 1rem;
+                }
+                .modal-action-basket {
+                    background: #d4af37;
+                    color: #000;
+                    border-color: #d4af37;
+                }
+                .modal-action-basket:hover {
+                    background: #e8c84a;
+                    border-color: #e8c84a;
                     transform: translateY(-2px);
-                    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+                    box-shadow: 0 8px 20px rgba(212,175,55,0.35);
                 }
-
-                .btn-outline-gold {
+                .modal-action-room {
                     background: transparent;
-                    border: 2px solid #d4af37;
                     color: #d4af37;
+                    border-color: rgba(212,175,55,0.4);
                 }
-
-                .btn-outline-gold:hover {
-                    background: rgba(212, 175, 55, 0.1);
+                .modal-action-room:hover {
+                    background: rgba(212,175,55,0.1);
+                    border-color: #d4af37;
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba(212,175,55,0.15);
                 }
 
                 @media (max-width: 768px) {
                     .menu-image-grid { grid-template-columns: 1fr; }
                     .dish-image-container { height: 220px; }
                     .premium-category-label { font-size: 1.75rem; }
-                    
-                    .modal-image-wrapper { height: 250px; }
-                    .modal-actions { flex-direction: column; gap: 1rem; }
-                    .modal-text-content h3 { font-size: 1.5rem; }
+                    .modal-split-body {
+                        grid-template-columns: 1fr;
+                        grid-template-rows: 260px auto;
+                    }
+                    .modal-left-panel { border-radius: 24px 24px 0 0; }
+                    .modal-left-glow { background: linear-gradient(to bottom, transparent 50%, #0d1526 100%); }
+                    .modal-right-panel { padding: 1.5rem 1.5rem 1.5rem; }
+                    .modal-actions-row { flex-direction: column; }
                     .dish-content-luxury { padding: 1.25rem; }
                 }
 
@@ -1176,7 +1557,254 @@ const Restaurant = () => {
                     .info-glass-box { grid-template-columns: 1fr; padding: 2rem; }
                     .border-sides { border: none; border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 2rem 0; }
                 }
+
+                /* ─── AUTH PROMPT MODAL ─── */
+                .auth-prompt-overlay {
+                    position: fixed;
+                    inset: 0;
+                    background: rgba(0, 0, 0, 0.82);
+                    backdrop-filter: blur(14px);
+                    z-index: 1100;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 1.5rem;
+                }
+
+                .auth-prompt-box {
+                    background: linear-gradient(145deg, #0d1526, #111e35);
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    border-radius: 24px;
+                    padding: 3rem 2.5rem 2.5rem;
+                    max-width: 420px;
+                    width: 100%;
+                    text-align: center;
+                    position: relative;
+                    box-shadow: 0 40px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(212,175,55,0.06);
+                }
+
+                .auth-prompt-close {
+                    position: absolute;
+                    top: 1rem;
+                    right: 1rem;
+                    width: 34px;
+                    height: 34px;
+                    border-radius: 50%;
+                    background: rgba(255,255,255,0.05);
+                    border: 1px solid rgba(255,255,255,0.12);
+                    color: #fff;
+                    font-size: 1.3rem;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: all 0.25s;
+                    line-height: 1;
+                }
+                .auth-prompt-close:hover {
+                    background: #d4af37;
+                    color: #000;
+                    border-color: #d4af37;
+                    transform: rotate(90deg);
+                }
+
+                .auth-prompt-icon {
+                    font-size: 2.8rem;
+                    margin-bottom: 1.25rem;
+                    line-height: 1;
+                }
+
+                .auth-prompt-title {
+                    font-family: 'Algerian', serif;
+                    font-size: 1.8rem;
+                    color: #fff;
+                    margin-bottom: 0.75rem;
+                    letter-spacing: 0.04em;
+                }
+
+                .auth-prompt-gold-bar {
+                    width: 44px;
+                    height: 3px;
+                    background: linear-gradient(to right, #d4af37, rgba(212,175,55,0.15));
+                    border-radius: 2px;
+                    margin: 0 auto 1.5rem;
+                }
+
+                .auth-prompt-msg {
+                    color: #94a3b8;
+                    font-size: 0.97rem;
+                    line-height: 1.7;
+                    margin-bottom: 2rem;
+                }
+                .auth-prompt-msg strong {
+                    color: #d4af37;
+                    font-weight: 700;
+                }
+
+                .auth-prompt-actions {
+                    display: flex;
+                    gap: 1rem;
+                }
+
+                .auth-btn {
+                    flex: 1;
+                    padding: 0.85rem 1rem;
+                    border-radius: 50px;
+                    font-weight: 700;
+                    font-size: 0.95rem;
+                    cursor: pointer;
+                    transition: all 0.25s ease;
+                    letter-spacing: 0.04em;
+                }
+
+                .auth-btn-primary {
+                    background: #d4af37;
+                    color: #000;
+                    border: 2px solid #d4af37;
+                }
+                .auth-btn-primary:hover {
+                    background: #e8c84a;
+                    border-color: #e8c84a;
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba(212,175,55,0.35);
+                }
+
+                .auth-btn-outline {
+                    background: transparent;
+                    color: #d4af37;
+                    border: 2px solid rgba(212,175,55,0.4);
+                }
+                .auth-btn-outline:hover {
+                    background: rgba(212,175,55,0.1);
+                    border-color: #d4af37;
+                    transform: translateY(-2px);
+                    box-shadow: 0 8px 20px rgba(212,175,55,0.12);
+                }
+
+                @media (max-width: 480px) {
+                    .auth-prompt-box { padding: 2.5rem 1.75rem 2rem; }
+                    .auth-prompt-actions { flex-direction: column; }
+                }
+
+                .floating-basket-fab {
+                    position: fixed;
+                    bottom: 2rem;
+                    right: 2rem;
+                    background: var(--primary);
+                    color: #000;
+                    padding: 0.8rem 1.5rem;
+                    border-radius: 50px;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.8rem;
+                    cursor: pointer;
+                    z-index: 1000;
+                    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+                    border: 1px solid rgba(0,0,0,0.1);
+                    font-family: 'Poppins', sans-serif;
+                }
+
+                .fab-icon-wrapper {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                }
+
+                .fab-badge {
+                    position: absolute;
+                    top: -8px;
+                    right: -10px;
+                    background: #fff;
+                    color: #000;
+                    font-size: 0.7rem;
+                    font-weight: 800;
+                    min-width: 18px;
+                    height: 18px;
+                    border-radius: 50%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+                }
+
+                .fab-label {
+                    font-weight: 700;
+                    font-size: 0.9rem;
+                    text-transform: uppercase;
+                    letter-spacing: 0.05em;
+                }
+
+                .flying-dish-ghost {
+                    position: fixed;
+                    width: 100px;
+                    height: 100px;
+                    z-index: 9999;
+                    pointer-events: none;
+                }
+
+                .flying-dish-ghost img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    border-radius: 50%;
+                    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+                    border: 2px solid var(--primary);
+                }
+
+                @media (max-width: 768px) {
+                    .floating-basket-fab {
+                        bottom: 1.5rem;
+                        right: 1.5rem;
+                        padding: 0.8rem;
+                    }
+                    .fab-label { display: none; }
+                }
             `}</style>
+
+            {/* ─── Floating Basket FAB ─── */}
+            <AnimatePresence>
+                {totalItems > 0 && (
+                    <motion.div
+                        className="floating-basket-fab"
+                        initial={{ scale: 0, opacity: 0, y: 50 }}
+                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                        exit={{ scale: 0, opacity: 0, y: 50 }}
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() => navigate('/my-basket')}
+                    >
+                        <div className="fab-icon-wrapper">
+                            <ShoppingBasket size={24} />
+                            <span className="fab-badge">{totalItems}</span>
+                        </div>
+                        <span className="fab-label">My Basket</span>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+
+            {/* ─── Flying Dish Animation ─── */}
+            <AnimatePresence>
+                {flyingDish && (
+                    <motion.div
+                        className="flying-dish-ghost"
+                        initial={{
+                            x: flyingDish.x - 50,
+                            y: flyingDish.y - 50,
+                            scale: 1,
+                            opacity: 1
+                        }}
+                        animate={{
+                            x: window.innerWidth - 100,
+                            y: window.innerHeight - 100,
+                            scale: 0.1,
+                            opacity: 0.5
+                        }}
+                        transition={{ duration: 0.8, ease: "easeInOut" }}
+                    >
+                        <img src={flyingDish.image} alt="flying" />
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

@@ -40,7 +40,7 @@ const Footer = () => {
             <style>{`
                 .footer-main {
                     background-color: var(--bg-card);
-                    padding: 3rem 0 1.5rem 0;
+                    padding: 0.5rem 0 0.5rem 0;
                     margin-top: auto;
                     border-top: 1px solid var(--glass-border);
                 }
@@ -82,10 +82,11 @@ const Footer = () => {
                 }
 
                 .footer-item-title {
-                    font-size: 1.2rem;
+                    font-size: 1.4rem;
                     color: var(--text-main);
-                    font-family: 'Outfit', sans-serif;
-                    font-weight: 600;
+                    font-family: 'Algerian', serif;
+                    font-weight: 700;
+                    letter-spacing: 0.05em;
                 }
 
                 .footer-item-text {
@@ -95,7 +96,7 @@ const Footer = () => {
 
                 .footer-bottom {
                     border-top: 1px solid var(--glass-border);
-                    padding-top: 2rem;
+                    padding-top: 1rem;
                     text-align: center;
                     color: var(--text-dim);
                     font-size: 0.9rem;

@@ -1,25 +1,25 @@
 // Shared Room Category Data
 // Centralized pricing and details for the hotel's static room categories
 
-import singleClaHome from '../assets/photo/single cla/home.jpeg';
-import singleCla2 from '../assets/photo/single cla/2.jpeg';
-import singleCla3 from '../assets/photo/single cla/3.jpeg';
-import singleClaBed from '../assets/photo/single cla/bed.jpeg';
+import singleClaHome from '../../../assets/photo/single cla/home.jpeg';
+import singleCla2 from '../../../assets/photo/single cla/2.jpeg';
+import singleCla3 from '../../../assets/photo/single cla/3.jpeg';
+import singleClaBed from '../../../assets/photo/single cla/bed.jpeg';
 
-import doubleClaHome from '../assets/photo/double cla/home.jpeg';
-import doubleCla4 from '../assets/photo/double cla/4.jpeg';
-import doubleCla5 from '../assets/photo/double cla/5.jpeg';
-import doubleCla6 from '../assets/photo/double cla/6.jpeg';
+import doubleClaHome from '../../../assets/photo/double cla/home.jpeg';
+import doubleCla4 from '../../../assets/photo/double cla/4.jpeg';
+import doubleCla5 from '../../../assets/photo/double cla/5.jpeg';
+import doubleCla6 from '../../../assets/photo/double cla/6.jpeg';
 
-import singlePreHome from '../assets/photo/single pre/home.jpeg';
-import singlePre1 from '../assets/photo/single pre/WhatsApp Image 2026-02-09 at 1.18.26 PM.jpeg';
-import singlePre2 from '../assets/photo/single pre/WhatsApp Image 2026-02-09 at 1.18.26 PM (1).jpeg';
-import singlePre3 from '../assets/photo/single pre/WhatsApp Image 2026-02-09 at 1.18.26 PM (2).jpeg';
+import singlePreHome from '../../../assets/photo/single pre/home.jpeg';
+import singlePre1 from '../../../assets/photo/single pre/WhatsApp Image 2026-02-09 at 1.18.26 PM.jpeg';
+import singlePre2 from '../../../assets/photo/single pre/WhatsApp Image 2026-02-09 at 1.18.26 PM (1).jpeg';
+import singlePre3 from '../../../assets/photo/single pre/WhatsApp Image 2026-02-09 at 1.18.26 PM (2).jpeg';
 
-import doublePreHome from '../assets/photo/double pre/home.jpeg';
-import doublePre1 from '../assets/photo/double pre/WhatsApp Image 2026-02-09 at 1.18.27 PM (1).jpeg';
-import doublePre2 from '../assets/photo/double pre/WhatsApp Image 2026-02-09 at 1.18.27 PM (2).jpeg';
-import doublePre3 from '../assets/photo/double pre/WhatsApp Image 2026-02-09 at 1.18.28 PM.jpeg';
+import doublePreHome from '../../../assets/photo/double pre/home.jpeg';
+import doublePre1 from '../../../assets/photo/double pre/WhatsApp Image 2026-02-09 at 1.18.27 PM (1).jpeg';
+import doublePre2 from '../../../assets/photo/double pre/WhatsApp Image 2026-02-09 at 1.18.27 PM (2).jpeg';
+import doublePre3 from '../../../assets/photo/double pre/WhatsApp Image 2026-02-09 at 1.18.28 PM.jpeg';
 
 export const ROOM_CATEGORIES = {
     'single-cla': {

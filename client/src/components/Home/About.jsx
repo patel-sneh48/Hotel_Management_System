@@ -51,13 +51,14 @@ const About = () => {
                             fontSize: '3.5rem',
                             marginBottom: '1rem',
                             fontWeight: 700,
-                            letterSpacing: '0.02em'
+                            letterSpacing: '0.05em',
+                            fontFamily: "'Algerian', serif"
                         }}>About Us</h1>
                         <p style={{
                             fontSize: '1.2rem',
                             color: '#cbd5e1',
                             fontFamily: "'Outfit', sans-serif",
-                            fontWeight: 300
+                            fontWeight: 400
                         }}>Experience the Pinnacle of Luxury</p>
                     </div>
                 </div>
@@ -66,11 +67,12 @@ const About = () => {
                 <div className="container about-content section" style={{ flex: 1 }}>
                     <div style={{ maxWidth: '900px', margin: '0 auto' }}>
                         <h2 style={{
-                            marginBottom: '1.5rem',
+                            marginBottom: '2rem',
                             color: 'var(--primary)',
                             textAlign: 'center',
                             fontSize: '2.5rem',
-                            fontWeight: 700
+                            fontWeight: 700,
+                            fontFamily: "'Algerian', serif"
                         }}>Our Story</h2>
 
                         <p style={{
@@ -124,13 +126,15 @@ const About = () => {
                                     fontSize: '3rem',
                                     color: 'var(--primary)',
                                     marginBottom: '0.5rem',
-                                    fontFamily: "'Caveat', cursive",
+                                    fontFamily: "'Algerian', serif",
                                     fontWeight: 700
                                 }}>10+</h3>
                                 <p style={{
                                     fontFamily: "'Outfit', sans-serif",
-                                    fontWeight: 400,
-                                    fontSize: '1rem'
+                                    fontWeight: 500,
+                                    fontSize: '1.1rem',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.05em'
                                 }}>Years of Service</p>
                             </div>
 
@@ -153,14 +157,16 @@ const About = () => {
                                     fontSize: '3rem',
                                     color: 'var(--primary)',
                                     marginBottom: '0.5rem',
-                                    fontFamily: "'Caveat', cursive",
+                                    fontFamily: "'Algerian', serif",
                                     fontWeight: 700
-                                }}>50+</h3>
+                                }}>4+</h3>
                                 <p style={{
                                     fontFamily: "'Outfit', sans-serif",
-                                    fontWeight: 400,
-                                    fontSize: '1rem'
-                                }}>Premium Rooms</p>
+                                    fontWeight: 500,
+                                    fontSize: '1.1rem',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.05em'
+                                }}>Rooms</p>
                             </div>
 
                             <div style={{
@@ -182,13 +188,15 @@ const About = () => {
                                     fontSize: '3rem',
                                     color: 'var(--primary)',
                                     marginBottom: '0.5rem',
-                                    fontFamily: "'Caveat', cursive",
+                                    fontFamily: "'Algerian', serif",
                                     fontWeight: 700
                                 }}>15k+</h3>
                                 <p style={{
                                     fontFamily: "'Outfit', sans-serif",
-                                    fontWeight: 400,
-                                    fontSize: '1rem'
+                                    fontWeight: 500,
+                                    fontSize: '1.1rem',
+                                    textTransform: 'uppercase',
+                                    letterSpacing: '0.05em'
                                 }}>Happy Guests</p>
                             </div>
                         </div>

@@ -46,11 +46,11 @@ const MyBookings = () => {
             <Navbar />
             <div className="container section">
                 {/* Header */}
-                <div className="bookings-header mb-8">
+                <div className="bookings-header mb-12">
                     <div className="user-avatar-lg">{user?.name?.charAt(0).toUpperCase()}</div>
-                    <div>
+                    <div className="text-center mt-4">
                         <h1 className="bookings-title">My Bookings</h1>
-                        <p className="text-dim">{user?.email}</p>
+                        <p className="text-dim text-lg">{user?.email}</p>
                     </div>
                 </div>
 
@@ -99,17 +99,28 @@ const MyBookings = () => {
 
                                     {/* Room Info */}
                                     <h3 className="room-title-card text-primary">{booking.roomTitle}</h3>
+                                    {booking.roomNumber && (
+                                        <div className="room-number-badge mb-4">
+                                            <BedDouble size={14} /> Room {booking.roomNumber}
+                                        </div>
+                                    )}
 
                                     {/* Dates Row */}
-                                    <div className="dates-row">
-                                        <div className="date-block">
-                                            <span className="date-label"><Calendar size={13} /> Check In</span>
-                                            <span className="date-value">{formatDate(booking.checkIn)}</span>
+                                    <div className="dates-row-premium">
+                                        <div className="date-box date-box-left">
+                                            <span className="date-label-premium">Check In</span>
+                                            <span className="date-value-premium">{formatDate(booking.checkIn)}</span>
+                                            {booking.checkInTime && <span style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 'bold' }}>at {booking.checkInTime}</span>}
                                         </div>
-                                        <div className="nights-badge">{nights}N</div>
-                                        <div className="date-block text-right">
-                                            <span className="date-label"><Calendar size={13} /> Check Out</span>
-                                            <span className="date-value">{formatDate(booking.checkOut)}</span>
+                                        <div className="nights-connector">
+                                            <div className="connector-line"></div>
+                                            <span className="nights-pill">{nights} Nights</span>
+                                            <div className="connector-line"></div>
+                                        </div>
+                                        <div className="date-box date-box-right">
+                                            <span className="date-label-premium">Check Out</span>
+                                            <span className="date-value-premium">{formatDate(booking.checkOut)}</span>
+                                            {booking.checkOutTime && <span style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 'bold' }}>at {booking.checkOutTime}</span>}
                                         </div>
                                     </div>
 
@@ -166,27 +177,31 @@ const MyBookings = () => {
 
                 .bookings-header {
                     display: flex;
+                    flex-direction: column;
                     align-items: center;
-                    gap: 1.25rem;
-                    padding-bottom: 2rem;
-                    border-bottom: 1px solid var(--glass-border);
+                    padding-bottom: 3.5rem;
+                    border-bottom: 1px solid rgba(255,255,255,0.1);
                 }
 
                 .user-avatar-lg {
-                    width: 64px; height: 64px;
+                    width: 76px; height: 76px;
                     border-radius: 50%;
                     background: var(--primary);
                     color: #1a1a1a;
                     display: flex; align-items: center; justify-content: center;
-                    font-weight: 700; font-size: 1.8rem;
+                    font-weight: 700; font-size: 2rem;
                     flex-shrink: 0;
+                    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+                    margin-bottom: 1rem;
                 }
 
                 .bookings-title {
-                    font-size: 2.2rem;
+                    font-size: 3rem;
                     color: #fff;
                     font-weight: 700;
-                    margin-bottom: 0.25rem;
+                    font-family: 'Algerian', serif;
+                    margin-bottom: 0.5rem;
+                    letter-spacing: 0.03em;
                 }
 
                 .empty-state {
@@ -202,14 +217,24 @@ const MyBookings = () => {
                 }
 
                 .bookings-grid {
-                    display: grid;
-                    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-                    gap: 1.5rem;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
+                    max-width: 850px;
+                    margin: 0 auto;
                 }
 
                 .booking-card {
-                    padding: 1.75rem;
-                    border-radius: 16px;
+                    padding: 2rem;
+                    border-radius: 20px;
+                    transition: all 0.3s ease;
+                    border: 1px solid rgba(255,255,255,0.05);
+                }
+                .booking-card:hover {
+                    transform: translateY(-5px);
+                    background: rgba(255,255,255,0.05);
+                    border-color: rgba(212, 175, 55, 0.2);
+                    box-shadow: 0 15px 40px rgba(0,0,0,0.4);
                 }
 
                 .booking-card-header {
@@ -244,50 +269,63 @@ const MyBookings = () => {
                 .booking-id { font-size: 0.78rem; font-family: monospace; opacity: 0.6; }
 
                 .room-title-card {
-                    font-size: 1.25rem;
+                    font-size: 1.5rem;
                     font-weight: 700;
-                    margin-bottom: 1.25rem;
+                    margin-bottom: 1rem;
+                    text-align: center;
+                    letter-spacing: 0.02em;
                 }
 
-                .dates-row {
+                .room-number-badge {
                     display: flex;
                     align-items: center;
-                    gap: 0.75rem;
-                    margin-bottom: 1rem;
+                    justify-content: center;
+                    gap: 0.5rem;
+                    padding: 0.5rem 1.2rem;
+                    background: rgba(56, 189, 248, 0.08);
+                    border: 1px solid rgba(56, 189, 248, 0.2);
+                    border-radius: 8px;
+                    font-size: 0.9rem;
+                    font-weight: 700;
+                    color: var(--primary);
+                    width: fit-content;
+                    margin: 0 auto 1.5rem;
                 }
 
-                .date-block {
-                    flex: 1;
+                .dates-row-premium {
+                    display: grid;
+                    grid-template-columns: 1fr auto 1fr;
+                    align-items: center;
+                    background: rgba(255, 255, 255, 0.03);
+                    border-radius: 12px;
+                    padding: 1.25rem;
+                    margin-bottom: 2rem;
+                    border: 1px solid rgba(255, 255, 255, 0.05);
+                }
+
+                .date-box { display: flex; flex-direction: column; gap: 0.35rem; }
+                .date-box-right { text-align: right; }
+                .date-label-premium { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; }
+                .date-value-premium { font-size: 1.1rem; color: #fff; font-weight: 600; }
+
+                .nights-connector {
                     display: flex;
                     flex-direction: column;
-                    gap: 0.25rem;
-                }
-
-                .date-label {
-                    display: flex;
                     align-items: center;
-                    gap: 0.3rem;
+                    padding: 0 1.5rem;
+                    min-width: 120px;
+                }
+                .connector-line { width: 1px; height: 10px; background: rgba(212, 175, 55, 0.3); }
+                .nights-pill {
+                    padding: 0.3rem 0.8rem;
+                    background: rgba(212, 175, 55, 0.15);
+                    border: 1px solid rgba(212, 175, 55, 0.3);
+                    border-radius: 50px;
                     font-size: 0.75rem;
-                    color: var(--text-dim);
-                    text-transform: uppercase;
-                    letter-spacing: 0.05em;
-                }
-
-                .date-value {
-                    font-size: 0.95rem;
-                    font-weight: 600;
-                    color: #fff;
-                }
-
-                .nights-badge {
-                    padding: 0.4rem 0.75rem;
-                    background: rgba(255,255,255,0.06);
-                    border-radius: 20px;
-                    font-size: 0.8rem;
-                    font-weight: 700;
-                    color: var(--text-muted);
-                    border: 1px solid var(--glass-border);
+                    font-weight: 800;
+                    color: var(--primary);
                     white-space: nowrap;
+                    margin: 0.2rem 0;
                 }
 
                 .card-divider {
@@ -298,17 +336,20 @@ const MyBookings = () => {
 
                 .payment-row {
                     display: flex;
+                    justify-content: space-between;
                     align-items: center;
-                    gap: 1rem;
+                    padding-top: 0.5rem;
                 }
 
                 .payment-method-info {
                     display: flex;
                     align-items: center;
-                    gap: 0.4rem;
+                    gap: 0.5rem;
                     font-size: 0.85rem;
-                    color: var(--text-muted);
-                    flex: 1;
+                    color: var(--text-dim);
+                    background: rgba(255,255,255,0.05);
+                    padding: 0.4rem 0.8rem;
+                    border-radius: 6px;
                 }
 
                 .payment-status {
@@ -318,9 +359,10 @@ const MyBookings = () => {
                 }
 
                 .total-amount {
-                    font-size: 1.35rem;
-                    font-weight: 700;
+                    font-size: 1.8rem;
+                    font-weight: 800;
                     color: var(--primary);
+                    font-family: 'Inter', sans-serif;
                 }
 
                 .guest-info {
