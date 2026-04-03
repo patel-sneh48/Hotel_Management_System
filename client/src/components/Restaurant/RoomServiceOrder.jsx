@@ -23,6 +23,8 @@ const RoomServiceOrder = () => {
   const [orderHistory,     setOrderHistory]     = useState([]);
   const [loadingHistory,   setLoadingHistory]   = useState(false);
   const [now,              setNow]              = useState(Date.now());
+  const [showTopbar,       setShowTopbar]       = useState(true);
+  const [lastScrollY,      setLastScrollY]      = useState(0);
 
   useEffect(() => { window.scrollTo(0, 0); }, []);
 
@@ -35,6 +37,21 @@ const RoomServiceOrder = () => {
   useEffect(() => {
     if (user && token) fetchOrderHistory();
   }, [user, token]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 60) {
+        setShowTopbar(false); // scrolling down
+      } else {
+        setShowTopbar(true); // scrolling up
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   const fetchOrderHistory = async () => {
     setLoadingHistory(true);
@@ -128,13 +145,11 @@ const RoomServiceOrder = () => {
 
   /* ─── render ─── */
   return (
-    <>
+    <div className="page-wrapper rs-page">
       <Navbar />
 
-      <div className="rs-page">
-
         {/* ── Top nav bar ── */}
-        <div className="rs-topbar">
+        <div className={`rs-topbar ${showTopbar ? '' : 'hidden'}`}>
           <div className="rs-topbar-inner">
             {/* user pill */}
             <div className="rs-user-pill">
@@ -460,15 +475,12 @@ const RoomServiceOrder = () => {
         </AnimatePresence>
 
         <Footer />
-      </div>
 
       {/* ══════════ STYLES ══════════ */}
       <style>{`
         /* ── Page shell ── */
         .rs-page {
-          min-height: 100vh;
           background: linear-gradient(160deg, #0b1120 0%, #0f172a 50%, #0b1120 100%);
-          font-family: 'Outfit', 'Inter', system-ui, sans-serif;
           color: #fff;
           padding-top: var(--nav-height, 80px);
         }
@@ -476,12 +488,20 @@ const RoomServiceOrder = () => {
 
         /* ── Topbar ── */
         .rs-topbar {
-          position: sticky;
+          position: fixed;
           top: var(--nav-height, 80px);
+          left: 0;
+          right: 0;
+          width: 100%;
           z-index: 100;
           background: rgba(11, 17, 32, 0.85);
           backdrop-filter: blur(20px);
           border-bottom: 1px solid rgba(212,175,55,0.15);
+          transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          transform: translateY(0);
+        }
+        .rs-topbar.hidden {
+          transform: translateY(-200%);
         }
         .rs-topbar-inner {
           max-width: 1100px;
@@ -545,7 +565,7 @@ const RoomServiceOrder = () => {
         .rs-content {
           max-width: 1100px;
           margin: 0 auto;
-          padding: 3rem 2rem 6rem;
+          padding: calc(3rem + 75px) 2rem 6rem;
         }
 
         /* ── Back link ── */
@@ -1012,7 +1032,7 @@ const RoomServiceOrder = () => {
           .rs-modal-box { padding: 2rem 1.5rem; }
         }
       `}</style>
-    </>
+    </div>
   );
 };
 

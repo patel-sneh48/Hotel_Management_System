@@ -741,7 +741,7 @@ const Restaurant = () => {
                                     className="auth-btn auth-btn-outline"
                                     onClick={() => {
                                         setShowReserveConfirm(false);
-                                        navigate('/restaurant/basket'); // Navigate to history section in basket
+                                        navigate('/my-reservations');
                                     }}
                                     style={{ width: '100%', background: 'rgba(255,255,255,0.05)', borderColor: 'rgba(255,255,255,0.2)' }}
                                 >

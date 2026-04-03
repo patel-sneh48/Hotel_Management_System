@@ -13,6 +13,7 @@ import Register from './components/Auth/Register';
 import Restaurant from './components/Restaurant/Restaurant';
 import MyBasket from './components/Restaurant/MyBasket';
 import RoomServiceOrder from './components/Restaurant/RoomServiceOrder';
+import MyReservations from './components/Restaurant/MyReservations';
 import Footer from './components/Home/Footer';
 import ScrollToTop from './components/ScrollToTop';
 
@@ -35,6 +36,7 @@ function App() {
       <Route path="/restaurant" element={<Restaurant />} />
       <Route path="/my-basket" element={<MyBasket />} />
       <Route path="/room-service-order" element={<RoomServiceOrder />} />
+      <Route path="/my-reservations" element={<MyReservations />} />
       </Routes>
     </>
   );

@@ -16,7 +16,7 @@ const Navbar = () => {
     const profileRef = useRef(null);
     const { user, logout } = useAuth();
     const { totalItems } = useBasket();
-    const isRestaurantPage = location.pathname.startsWith('/restaurant');
+    const isRestaurantPage = location.pathname.startsWith('/restaurant') || location.pathname === '/my-basket' || location.pathname === '/room-service-order' || location.pathname === '/my-reservations';
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -207,7 +207,7 @@ const Navbar = () => {
                                                 <button className="profile-link-btn" onClick={() => { setShowProfile(false); navigate('/my-basket'); }}>
                                                     <ShoppingBasket size={16} /> My Basket
                                                 </button>
-                                                <button className="profile-link-btn" onClick={() => { setShowProfile(false); navigate('/my-basket', { state: { tab: 'tables' } }); }}>
+                                                <button className="profile-link-btn" onClick={() => { setShowProfile(false); navigate('/my-reservations'); }}>
                                                     <History size={16} /> My Reservations
                                                 </button>
                                                 <button className="profile-link-btn logout-btn" onClick={logout}>
@@ -291,9 +291,9 @@ const Navbar = () => {
                                     <ShoppingBasket size={18} /> My Basket
                                     {totalItems > 0 && <span className="basket-count-pills">{totalItems}</span>}
                                 </Link>
-                                <Link 
-                                    to="/my-basket" 
-                                    className="mobile-nav-link" 
+                                <Link
+                                    to="/my-basket"
+                                    className="mobile-nav-link"
                                     state={{ tab: 'tables' }}
                                     onClick={() => setMobileOpen(false)}
                                 >

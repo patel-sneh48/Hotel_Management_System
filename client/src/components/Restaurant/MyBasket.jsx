@@ -14,18 +14,13 @@ const MyBasket = () => {
     const location = useLocation();
     const [activeBooking, setActiveBooking] = useState(null);
     const [orderHistory, setOrderHistory] = useState([]);
-    const [reservationHistory, setReservationHistory] = useState([]);
     const [loadingHistory, setLoadingHistory] = useState(false);
-    const [historyTab, setHistoryTab] = useState('food'); // 'food' | 'tables'
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [lastOrderDetails, setLastOrderDetails] = useState(null);
 
     useEffect(() => {
         window.scrollTo(0, 0);
-        if (location.state?.tab) {
-            setHistoryTab(location.state.tab);
-        }
-    }, [location.state]);
+    }, []);
 
     useEffect(() => {
         const fetchActiveBooking = async () => {
@@ -49,17 +44,8 @@ const MyBasket = () => {
     useEffect(() => {
         if (user && token) {
             fetchOrderHistory();
-            fetchReservationHistory();
         }
     }, [user, token]);
-
-    // Auto-refresh reservations when switching to the tables tab
-    useEffect(() => {
-        if (historyTab === 'tables' && user && token) {
-            console.log("🔄 Tab switched to Tables, refreshing history...");
-            fetchReservationHistory();
-        }
-    }, [historyTab, user, token]);
 
     const fetchOrderHistory = async () => {
         setLoadingHistory(true);
@@ -78,21 +64,7 @@ const MyBasket = () => {
         }
     };
 
-    const fetchReservationHistory = async () => {
-        try {
-            console.log("📡 Fetching reservations for:", user?.name);
-            const res = await fetch('http://localhost:5000/api/reservations/my-reservations', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            const data = await res.json();
-            console.log("✅ Reservations data received:", data);
-            if (data.success) {
-                setReservationHistory(data.reservations);
-            }
-        } catch (err) {
-            console.error('❌ Error fetching reservations:', err);
-        }
-    };
+
 
     const handlePlaceOrder = () => {
         setLastOrderDetails({
@@ -285,141 +257,57 @@ const MyBasket = () => {
                         <div className="history-line" />
                     </div>
 
-                    {/* History Tabs */}
-                    <div className="history-tabs" style={{ display: 'flex', gap: '1rem', marginBottom: '2rem' }}>
-                        <button
-                            className={`history-tab-btn ${historyTab === 'food' ? 'active' : ''}`}
-                            onClick={() => setHistoryTab('food')}
-                        >
-                            <Utensils size={16} /> Food History
-                        </button>
-                        <button
-                            className={`history-tab-btn ${historyTab === 'tables' ? 'active' : ''}`}
-                            onClick={() => setHistoryTab('tables')}
-                        >
-                            <History size={16} /> Table Reservations
-                        </button>
-                    </div>
-
                     {loadingHistory ? (
                         <div className="history-loading">Fetching your history...</div>
-                    ) : historyTab === 'food' ? (
-                        orderHistory.length === 0 ? (
-                            <div className="glass-card history-empty">
-                                <PackageCheck size={32} className="text-dim mb-3" />
-                                <p>No past room service orders found.</p>
-                            </div>
-                        ) : (
-                            <div className="history-list">
-                                {orderHistory.map((order, idx) => (
-                                    <motion.div
-                                        key={order._id}
-                                        className="history-card glass-card"
-                                        initial={{ opacity: 0, y: 15 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.4, delay: idx * 0.1 }}
-                                    >
-                                        <div className="history-card-header">
-                                            <div className="history-date-box">
-                                                <Clock size={14} className="text-primary" />
-                                                <span>
-                                                    {new Date(order.createdAt).toLocaleDateString('en-US', {
-                                                        month: 'short', day: 'numeric', year: 'numeric'
-                                                    })} • {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                                </span>
-                                            </div>
-                                        </div>
-
-                                        <div className="history-card-body">
-                                            <div className="history-items-preview">
-                                                {order.items.map((item, i) => (
-                                                    <div key={i} className="history-mini-item">
-                                                        <img src={item.image} alt={item.name} className="mini-item-img" />
-                                                        <span className="mini-item-name">{item.name} <small>x{item.quantity}</small></span>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                            <div className="history-card-right">
-                                                <div className="history-total-label">Total Amount</div>
-                                                <div className="history-total-val">${order.totalAmount.toFixed(2)}</div>
-                                                <button
-                                                    className="history-view-btn"
-                                                    onClick={() => navigate('/room-service-order', { state: { fromHistory: true } })}
-                                                >
-                                                    Details <ChevronRight size={14} />
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        )
+                    ) : orderHistory.length === 0 ? (
+                        <div className="glass-card history-empty">
+                            <PackageCheck size={32} className="text-dim mb-3" />
+                            <p>No past room service orders found.</p>
+                        </div>
                     ) : (
-                        reservationHistory.length === 0 ? (
-                            <div className="glass-card history-empty">
-                                <History size={32} className="text-dim mb-3" />
-                                <p>No table reservations found.</p>
-                            </div>
-                        ) : (
-                            <div className="history-list">
-                                {reservationHistory.map((res, idx) => (
-                                    <motion.div
-                                        key={res._id}
-                                        className="history-card glass-card table-res-card"
-                                        initial={{ opacity: 0, y: 15 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ duration: 0.4, delay: idx * 0.1 }}
-                                    >
-                                        <div className="history-card-header">
-                                            <div className="history-date-box">
-                                                <Clock size={14} className="text-primary" />
-                                                <span>
-                                                    {new Date(res.date).toLocaleDateString('en-US', {
-                                                        month: 'short', day: 'numeric', year: 'numeric'
-                                                    })} • {res.time}
-                                                </span>
-                                            </div>
-                                            <div className="history-status-badge">{res.tableNumber}</div>
+                        <div className="history-list">
+                            {orderHistory.map((order, idx) => (
+                                <motion.div
+                                    key={order._id}
+                                    className="history-card glass-card"
+                                    initial={{ opacity: 0, y: 15 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.4, delay: idx * 0.1 }}
+                                >
+                                    <div className="history-card-header">
+                                        <div className="history-date-box">
+                                            <Clock size={14} className="text-primary" />
+                                            <span>
+                                                {new Date(order.createdAt).toLocaleDateString('en-US', {
+                                                    month: 'short', day: 'numeric', year: 'numeric'
+                                                })} • {new Date(order.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </span>
                                         </div>
+                                    </div>
 
-                                        <div className="history-card-body">
-                                            <div className="res-details-preview">
-                                                <div className="res-guest-info">
-                                                    <span className="text-dim">Reserved for:</span>
-                                                    <span className="res-guest-name">{res.guestName}</span>
+                                    <div className="history-card-body">
+                                        <div className="history-items-preview">
+                                            {order.items.map((item, i) => (
+                                                <div key={i} className="history-mini-item">
+                                                    <img src={item.image} alt={item.name} className="mini-item-img" />
+                                                    <span className="mini-item-name">{item.name} <small>x{item.quantity}</small></span>
                                                 </div>
-                                                <div className="res-detail-line">
-                                                    <Utensils size={16} className="text-gold" />
-                                                    <span>Fine Dining Experience</span>
-                                                </div>
-                                                <div className="res-detail-line" style={{ display: 'flex', gap: '2rem' }}>
-                                                    <div>
-                                                        <span className="text-dim">Party Size:</span>
-                                                        <span className="font-bold ml-2">{res.guests}</span>
-                                                    </div>
-                                                    <div>
-                                                        <span className="text-dim">ID:</span>
-                                                        <span className="font-bold ml-2">RSV-{res._id.slice(-6).toUpperCase()}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="history-card-right">
-                                                <div className="history-status-label">Status</div>
-                                                <div className="history-status-val" style={{ color: '#10b981', textTransform: 'uppercase', fontSize: '0.8rem', fontWeight: '800', marginBottom: '1rem' }}>
-                                                    Confirmed
-                                                </div>
-                                                <button 
-                                                    className="history-view-btn"
-                                                    onClick={() => alert("🎟️ Digital Reservation Slip\n\nID: RSV-" + res._id.slice(-6).toUpperCase() + "\nGuest: " + res.guestName + "\nTable: " + res.tableNumber + "\nDate: " + new Date(res.date).toLocaleDateString() + "\nTime: " + res.time + "\n\nShow this slip at the restaurant entrance.")}
-                                                >
-                                                    Digital Slip <ChevronRight size={14} />
-                                                </button>
-                                            </div>
+                                            ))}
                                         </div>
-                                    </motion.div>
-                                ))}
-                            </div>
-                        )
+                                        <div className="history-card-right">
+                                            <div className="history-total-label">Total Amount</div>
+                                            <div className="history-total-val">${order.totalAmount.toFixed(2)}</div>
+                                            <button
+                                                className="history-view-btn"
+                                                onClick={() => navigate('/room-service-order', { state: { fromHistory: true } })}
+                                            >
+                                                Details <ChevronRight size={14} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
                     )}
                 </div>
             </div>
