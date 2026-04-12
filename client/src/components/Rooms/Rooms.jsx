@@ -143,7 +143,7 @@ const Rooms = () => {
 
                                                 <img src={room.imageUrl} alt={room.title} className="room-image" />
                                                 <div className="room-overlay">
-                                                    <div className="room-price-tag">${room.price}/night</div>
+                                                    <div className="room-price-tag">₹{room.price}/night</div>
                                                     <div className="room-title-overlay">{room.title}</div>
                                                 </div>
                                             </div>

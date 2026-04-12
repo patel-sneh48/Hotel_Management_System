@@ -186,7 +186,7 @@ const MyBasket = () => {
 
                                             {/* Line total */}
                                             <span className="basket-line-total">
-                                                ${(parseFloat(item.price.replace('$', '')) * item.quantity).toFixed(2)}
+                                                ₹{(parseFloat(item.price.replace('₹', '')) * item.quantity).toFixed(2)}
                                             </span>
 
                                             <button className="remove-btn" onClick={() => removeFromBasket(item.name)}>
@@ -216,7 +216,7 @@ const MyBasket = () => {
                                             <span className="summary-row-qty"> ×{item.quantity}</span>
                                         </span>
                                         <span className="summary-row-price">
-                                            ${(parseFloat(item.price.replace('$', '')) * item.quantity).toFixed(2)}
+                                            ₹{(parseFloat(item.price.replace('₹', '')) * item.quantity).toFixed(2)}
                                         </span>
                                     </div>
                                 ))}
@@ -226,7 +226,7 @@ const MyBasket = () => {
 
                             <div className="summary-total-row">
                                 <span>Total</span>
-                                <span className="summary-total-amt">${totalPrice.toFixed(2)}</span>
+                                <span className="summary-total-amt">₹{totalPrice.toFixed(2)}</span>
                             </div>
 
                             <button className="btn-place-order" onClick={handlePlaceOrder}>
@@ -296,7 +296,7 @@ const MyBasket = () => {
                                         </div>
                                         <div className="history-card-right">
                                             <div className="history-total-label">Total Amount</div>
-                                            <div className="history-total-val">${order.totalAmount.toFixed(2)}</div>
+                                            <div className="history-total-val">₹{order.totalAmount.toFixed(2)}</div>
                                             <button
                                                 className="history-view-btn"
                                                 onClick={() => navigate('/room-service-order', { state: { fromHistory: true } })}
@@ -364,7 +364,7 @@ const MyBasket = () => {
                                 </div>
                                 <div className="summary-total-footer">
                                     <span>Total Amount Paid</span>
-                                    <span>${lastOrderDetails?.total.toFixed(2)}</span>
+                                    <span>₹{lastOrderDetails?.total.toFixed(2)}</span>
                                 </div>
                             </div>
 
@@ -385,7 +385,7 @@ const MyBasket = () => {
                 )}
             </AnimatePresence>
 
-            <Footer />
+            <Footer email="dining@luxestay.com" />
 
             <style>{`
                 .basket-page { 

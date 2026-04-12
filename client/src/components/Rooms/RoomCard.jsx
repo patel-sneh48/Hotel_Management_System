@@ -7,7 +7,7 @@ const RoomCard = ({ room }) => {
             <div className="room-card-image-box">
                 <img src={room.imageUrl} alt={room.title} className="room-card-image" />
                 <div className="room-card-overlay">
-                    <span className="room-card-price">${room.price}<span>/night</span></span>
+                    <span className="room-card-price">₹{room.price}<span>/night</span></span>
                 </div>
             </div>
 

@@ -306,7 +306,7 @@ const Checkout = () => {
                                     {isProcessing ? (
                                         <><Loader2 className="spinning" size={20} /> Authorizing...</>
                                     ) : (
-                                        <>Confirm Booking • ${totalAmount?.toFixed(2)}</>
+                                        <>Confirm Booking • ₹{totalAmount?.toFixed(2)}</>
                                     )}
                                 </button>
                             </motion.div>
@@ -356,11 +356,11 @@ const Checkout = () => {
                                 <div className="billing-summary-luxury">
                                     <div className="billing-row">
                                         <span>Standard Rate</span>
-                                        <span>${room.price} / night</span>
+                                        <span>₹{room.price} / night</span>
                                     </div>
                                     <div className="billing-row">
                                         <span>Subtotal ({nights} nights)</span>
-                                        <span>${totalAmount?.toFixed(2)}</span>
+                                        <span>₹{totalAmount?.toFixed(2)}</span>
                                     </div>
                                     <div className="billing-row highlight">
                                         <span>Service Tax & Fees</span>
@@ -372,7 +372,7 @@ const Checkout = () => {
                                             <span>Total Amount Due</span>
                                             <p>All taxes included</p>
                                         </div>
-                                        <div className="total-value">${totalAmount?.toFixed(2)}</div>
+                                        <div className="total-value">₹{totalAmount?.toFixed(2)}</div>
                                     </div>
                                 </div>
 

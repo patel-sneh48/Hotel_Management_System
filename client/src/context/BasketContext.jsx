@@ -42,7 +42,7 @@ export const BasketProvider = ({ children }) => {
     const totalItems = basketItems.reduce((sum, item) => sum + item.quantity, 0);
 
     const totalPrice = basketItems.reduce((sum, item) => {
-        const price = parseFloat(item.price.replace('$', ''));
+        const price = parseFloat(item.price.replace('₹', ''));
         return sum + price * item.quantity;
     }, 0);
 

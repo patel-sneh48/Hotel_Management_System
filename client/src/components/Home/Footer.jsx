@@ -1,6 +1,6 @@
 import { Mail, Phone, MapPin } from 'lucide-react';
 
-const Footer = () => {
+const Footer = ({ email = "bookings@luxestay.com" }) => {
     return (
         <footer className="footer-main">
             <div className="container">
@@ -18,7 +18,7 @@ const Footer = () => {
                             <Mail size={24} />
                         </div>
                         <h4 className="footer-item-title font-fancy">Email Us</h4>
-                        <p className="footer-item-text">bookings@luxestay.com</p>
+                        <p className="footer-item-text">{email}</p>
                     </div>
 
                     <div className="footer-item">

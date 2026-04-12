@@ -27,7 +27,7 @@ export const ROOM_CATEGORIES = {
         slug: 'single-cla',
         title: 'Classic Single Bedroom',
         subtitle: 'Timeless Comfort for the Solo Traveler',
-        price: 150, // Consistent Price
+        price: 15000, // Consistent Price
         description: 'Step into understated luxury with our Single Classic Room — a handcrafted retreat designed for the discerning solo traveler. The room is anchored by a plush queen-size bed dressed in 400-thread-count Egyptian cotton linens, ensuring a restorative night\'s sleep.',
         images: [singleClaHome, singleCla2, singleCla3, singleClaBed],
         imageDescriptions: [
@@ -44,7 +44,7 @@ export const ROOM_CATEGORIES = {
         slug: 'double-cla',
         title: 'Classic Double Bedroom',
         subtitle: 'Spacious Elegance for Couples & Families',
-        price: 280, // Consistent Price
+        price: 28000, // Consistent Price
         description: 'Our Double Classic Room is a masterclass in spacious, timeless hospitality — a haven designed for couples seeking romance, families longing for comfort, or travellers who simply refuse to compromise on space.',
         images: [doubleClaHome, doubleCla4, doubleCla5, doubleCla6],
         imageDescriptions: [
@@ -61,7 +61,7 @@ export const ROOM_CATEGORIES = {
         slug: 'single-pre',
         title: 'Premium Single Bedroom',
         subtitle: 'Elevated Luxury for the Discerning Guest',
-        price: 350, // Consistent Price
+        price: 35000, // Consistent Price
         description: 'An ultra-luxurious sanctuary for the discerning solo traveler, offering unparalleled comfort, panoramic city views, and exclusive personalized services in a sophisticated setting.',
         images: [singlePreHome, singlePre1, singlePre2, singlePre3],
         imageDescriptions: [
@@ -78,7 +78,7 @@ export const ROOM_CATEGORIES = {
         slug: 'double-pre',
         title: 'Premium Double Bedroom',
         subtitle: 'The Ultimate Luxury Experience',
-        price: 550, // Consistent Price
+        price: 55000, // Consistent Price
         description: 'Experience the height of sophistication in our spacious double suites, featuring designer furnishings, expansive living areas, and state-of-the-art amenities for a truly elite stay.',
         images: [doublePreHome, doublePre1, doublePre2, doublePre3],
         imageDescriptions: [

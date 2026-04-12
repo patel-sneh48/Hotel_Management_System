@@ -138,7 +138,7 @@ const MyBookings = () => {
                                             <CheckCircle size={14} className="text-success" />
                                             <span className="text-success text-sm font-bold">Paid</span>
                                         </div>
-                                        <div className="total-amount">${booking.totalAmount.toFixed(2)}</div>
+                                        <div className="total-amount">₹{booking.totalAmount.toFixed(2)}</div>
                                     </div>
 
                                     {/* Guest Info */}

@@ -71,7 +71,7 @@ const RoomServiceOrder = () => {
   const orderItems        = items || (dish ? [dish] : []);
   const currentTotalPrice = orderItems.reduce((sum, item) => {
     const p = typeof item.price === 'string'
-      ? parseFloat(item.price.replace('$', ''))
+      ? parseFloat(item.price.replace('₹', ''))
       : item.price;
     return sum + p * (item.quantity || 1);
   }, 0);
@@ -83,7 +83,7 @@ const RoomServiceOrder = () => {
         roomNumber:  activeBooking.roomNumber,
         items: orderItems.map(it => ({
           name:     it.name,
-          price:    typeof it.price === 'string' ? parseFloat(it.price.replace('$', '')) : it.price,
+          price:    typeof it.price === 'string' ? parseFloat(it.price.replace('₹', '')) : it.price,
           quantity: it.quantity || 1,
           image:    it.image,
         })),
@@ -236,7 +236,7 @@ const RoomServiceOrder = () => {
                     <div className="rs-items-list">
                       {orderItems.map((item, i) => {
                         const price = typeof item.price === 'string'
-                          ? parseFloat(item.price.replace('$', ''))
+                          ? parseFloat(item.price.replace('₹', ''))
                           : item.price;
                         return (
                           <div key={i} className="rs-item-row">
@@ -248,7 +248,7 @@ const RoomServiceOrder = () => {
                               <p className="rs-item-name">{item.name}</p>
                               <p className="rs-item-unit">per piece · in-room dining</p>
                             </div>
-                            <p className="rs-item-price">${(price * (item.quantity || 1)).toFixed(2)}</p>
+                            <p className="rs-item-price">₹{(price * (item.quantity || 1)).toFixed(2)}</p>
                           </div>
                         );
                       })}
@@ -264,12 +264,12 @@ const RoomServiceOrder = () => {
                       <div className="rs-summary-rows">
                         {orderItems.map((item, i) => {
                           const price = typeof item.price === 'string'
-                            ? parseFloat(item.price.replace('$', ''))
+                            ? parseFloat(item.price.replace('₹', ''))
                             : item.price;
                           return (
                             <div key={i} className="rs-summary-line">
                               <span>{item.name} <span className="rs-summary-qty">×{item.quantity || 1}</span></span>
-                              <span>${(price * (item.quantity || 1)).toFixed(2)}</span>
+                              <span>₹{(price * (item.quantity || 1)).toFixed(2)}</span>
                             </div>
                           );
                         })}
@@ -284,7 +284,7 @@ const RoomServiceOrder = () => {
 
                       <div className="rs-summary-total">
                         <span>Total</span>
-                        <span className="rs-total-amount">${currentTotalPrice.toFixed(2)}</span>
+                        <span className="rs-total-amount">₹{currentTotalPrice.toFixed(2)}</span>
                       </div>
 
                       <button className="rs-btn-confirm" onClick={handleConfirm}>
@@ -376,7 +376,7 @@ const RoomServiceOrder = () => {
                         <div className="rs-hcard-footer">
                           <div>
                             <span className="rs-hcard-total-label">Total</span>
-                            <span className="rs-hcard-total">${order.totalAmount.toFixed(2)}</span>
+                            <span className="rs-hcard-total">₹{order.totalAmount.toFixed(2)}</span>
                           </div>
 
                           {/* 5-min cancel section */}
@@ -447,12 +447,12 @@ const RoomServiceOrder = () => {
                   {lastOrderInfo?.items.map((it, i) => (
                     <div key={i} className="rs-modal-line">
                       <span>{it.name} <span className="rs-modal-qty">×{it.quantity}</span></span>
-                      <span>${(it.price * it.quantity).toFixed(2)}</span>
+                      <span>₹{(it.price * it.quantity).toFixed(2)}</span>
                     </div>
                   ))}
                   <div className="rs-modal-total-row">
                     <span>Total</span>
-                    <span className="rs-gold">${lastOrderInfo?.totalAmount.toFixed(2)}</span>
+                    <span className="rs-gold">₹{lastOrderInfo?.totalAmount.toFixed(2)}</span>
                   </div>
                 </div>
 
@@ -474,7 +474,7 @@ const RoomServiceOrder = () => {
           )}
         </AnimatePresence>
 
-        <Footer />
+        <Footer email="dining@luxestay.com" />
 
       {/* ══════════ STYLES ══════════ */}
       <style>{`

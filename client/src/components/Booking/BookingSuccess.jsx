@@ -162,7 +162,7 @@ const BookingSuccess = () => {
                                 <span>Total Paid</span>
                                 <p>Standard Room Rate + Taxes</p>
                             </div>
-                            <div className="total-amount-premium">${booking.totalAmount.toFixed(2)}</div>
+                            <div className="total-amount-premium">₹{booking.totalAmount.toFixed(2)}</div>
                         </div>
                     </div>
                 </motion.div>

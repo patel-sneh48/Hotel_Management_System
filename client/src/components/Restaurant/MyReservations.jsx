@@ -118,7 +118,7 @@ const MyReservations = () => {
                 </div>
             </div>
 
-            <Footer />
+            <Footer email="dining@luxestay.com" />
 
             <style>{`
                 .basket-page { 

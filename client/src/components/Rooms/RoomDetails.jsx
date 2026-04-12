@@ -137,7 +137,7 @@ const RoomDetails = () => {
                             <div className="price-header">
                                 <span className="label">Starting From</span>
                                 <div className="price-main">
-                                    ${room.price} <span className="period">/ night</span>
+                                    ₹{room.price} <span className="period">/ night</span>
                                 </div>
                             </div>
 

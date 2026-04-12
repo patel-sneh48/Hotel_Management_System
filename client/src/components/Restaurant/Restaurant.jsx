@@ -56,25 +56,25 @@ const menuData = {
         {
             type: "Starters",
             dishes: [
-                { name: "Seared Scallops with Lemon Butter", price: "$28", desc: "Pan-seared to perfection, finished with brown butter and citrus. A sublime opening act with a velvety finish.", ingredients: ["Diver Scallops", "Brown Butter", "Lemon Zest", "Micro Herbs", "Sea Salt"], image: signatureScallops },
-                { name: "Tuna Tartare with Avocado & Citrus Dressing", price: "$32", desc: "Fresh Ahi tuna, silky avocado mousse, pop of wasabi pearls and a bright citrus dressing.", ingredients: ["Ahi Tuna", "Avocado Mousse", "Wasabi Pearls", "Citrus Dressing", "Sesame Oil"], image: signatureTuna },
-                { name: "Burrata with Heirloom Tomatoes & Basil Oil", price: "$26", desc: "Creamy Italian burrata on a bed of heirloom tomatoes, finished with balsamic reduction and vibrant basil oil.", ingredients: ["Burrata", "Heirloom Tomatoes", "Basil Oil", "Balsamic Reduction", "Focaccia"], image: signatureBurrata }
+                { name: "Seared Scallops with Lemon Butter", price: "₹2800", desc: "Pan-seared to perfection, finished with brown butter and citrus. A sublime opening act with a velvety finish.", ingredients: ["Diver Scallops", "Brown Butter", "Lemon Zest", "Micro Herbs", "Sea Salt"], image: signatureScallops },
+                { name: "Tuna Tartare with Avocado & Citrus Dressing", price: "₹3200", desc: "Fresh Ahi tuna, silky avocado mousse, pop of wasabi pearls and a bright citrus dressing.", ingredients: ["Ahi Tuna", "Avocado Mousse", "Wasabi Pearls", "Citrus Dressing", "Sesame Oil"], image: signatureTuna },
+                { name: "Burrata with Heirloom Tomatoes & Basil Oil", price: "₹2600", desc: "Creamy Italian burrata on a bed of heirloom tomatoes, finished with balsamic reduction and vibrant basil oil.", ingredients: ["Burrata", "Heirloom Tomatoes", "Basil Oil", "Balsamic Reduction", "Focaccia"], image: signatureBurrata }
             ]
         },
         {
             type: "Main Course",
             dishes: [
-                { name: "Wagyu Beef Tenderloin with Truffle Sauce", price: "$68", desc: "A5 Wagyu seared to rosy perfection, resting in a velvety black truffle sauce with crispy potato pavé and charred asparagus.", ingredients: ["A5 Wagyu", "Black Truffle", "Potato Pavé", "Asparagus", "Demi-Glace"], image: signatureWagyu },
-                { name: "Herb-Crusted Rack of Lamb with Red Wine Jus", price: "$52", desc: "Frenched rack of lamb encrusted with rosemary and breadcrumbs, served with silky mint pea purée and roasted heritage carrots.", ingredients: ["Rack of Lamb", "Rosemary", "Mint Pea Purée", "Red Wine Jus", "Heritage Carrots"], image: signatureLamb },
-                { name: "Chilean Sea Bass with Champagne Cream", price: "$58", desc: "Buttery sea bass fillet on a langoustine leek fondant, draped in a champagne-saffron cream sauce.", ingredients: ["Chilean Sea Bass", "Champagne", "Saffron", "Leek Fondant", "Langoustine Bisque"], image: signatureSeaBass }
+                { name: "Wagyu Beef Tenderloin with Truffle Sauce", price: "₹6800", desc: "A5 Wagyu seared to rosy perfection, resting in a velvety black truffle sauce with crispy potato pavé and charred asparagus.", ingredients: ["A5 Wagyu", "Black Truffle", "Potato Pavé", "Asparagus", "Demi-Glace"], image: signatureWagyu },
+                { name: "Herb-Crusted Rack of Lamb with Red Wine Jus", price: "₹5200", desc: "Frenched rack of lamb encrusted with rosemary and breadcrumbs, served with silky mint pea purée and roasted heritage carrots.", ingredients: ["Rack of Lamb", "Rosemary", "Mint Pea Purée", "Red Wine Jus", "Heritage Carrots"], image: signatureLamb },
+                { name: "Chilean Sea Bass with Champagne Cream", price: "₹5800", desc: "Buttery sea bass fillet on a langoustine leek fondant, draped in a champagne-saffron cream sauce.", ingredients: ["Chilean Sea Bass", "Champagne", "Saffron", "Leek Fondant", "Langoustine Bisque"], image: signatureSeaBass }
             ]
         },
         {
             type: "Desserts",
             dishes: [
-                { name: "Valrhona Chocolate Fondant", price: "$18", desc: "Warm molten Valrhona chocolate center dusted with Fleur de Sel, accompanied by hand-churned vanilla bean gelato.", ingredients: ["Valrhona 72% Chocolate", "Fleur de Sel", "Vanilla Gelato", "Cocoa Powder", "Salted Caramel"], image: signatureFondant },
-                { name: "Vanilla Bean Crème Brûlée", price: "$16", desc: "Silky Madagascar vanilla custard beneath a perfectly caramelized sugar crust, garnished with fresh seasonal berries.", ingredients: ["Madagascar Vanilla", "Cream", "Egg Yolk", "Demerara Sugar", "Fresh Berries"], image: signatureBrulee },
-                { name: "Raspberry Mille-Feuille", price: "$22", desc: "Crispy layers of caramelized puff pastry filled with vanilla diplomat cream and crowned with fresh raspberries.", ingredients: ["Puff Pastry", "Vanilla Diplomat Cream", "Fresh Raspberries", "Raspberry Coulis", "Icing Sugar"], image: signatureMilleFeuille }
+                { name: "Valrhona Chocolate Fondant", price: "₹1800", desc: "Warm molten Valrhona chocolate center dusted with Fleur de Sel, accompanied by hand-churned vanilla bean gelato.", ingredients: ["Valrhona 72% Chocolate", "Fleur de Sel", "Vanilla Gelato", "Cocoa Powder", "Salted Caramel"], image: signatureFondant },
+                { name: "Vanilla Bean Crème Brûlée", price: "₹1600", desc: "Silky Madagascar vanilla custard beneath a perfectly caramelized sugar crust, garnished with fresh seasonal berries.", ingredients: ["Madagascar Vanilla", "Cream", "Egg Yolk", "Demerara Sugar", "Fresh Berries"], image: signatureBrulee },
+                { name: "Raspberry Mille-Feuille", price: "₹2200", desc: "Crispy layers of caramelized puff pastry filled with vanilla diplomat cream and crowned with fresh raspberries.", ingredients: ["Puff Pastry", "Vanilla Diplomat Cream", "Fresh Raspberries", "Raspberry Coulis", "Icing Sugar"], image: signatureMilleFeuille }
             ]
         }
     ],
@@ -82,25 +82,25 @@ const menuData = {
         {
             type: "Starters",
             dishes: [
-                { name: "Galouti Kebab with Saffron Paratha", price: "$26", desc: "Impossibly tender Lucknowi lamb patties infused with over 100 spices, served on saffron-laced paratha with mint chutney.", ingredients: ["Minced Lamb", "Saffron", "Raw Papaya", "Kewra Water", "Mint Chutney"], image: indianGalouti },
-                { name: "Murgh Malai Kebab", price: "$24", desc: "Succulent chicken skewers marinated in triple cream, processed cheese and aromatic garlic, char-grilled in a tandoor.", ingredients: ["Chicken Breast", "Triple Cream", "Processed Cheese", "Garlic", "Green Chili"], image: indianMurghMalai },
-                { name: "Tandoori Broccoli with Mint Chutney", price: "$20", desc: "Large broccoli florets wrapped in a smoky hung curd marinade, char-grilled in a traditional tandoor until perfectly blistered.", ingredients: ["Broccoli", "Hung Curd", "Carom Seeds", "Chaat Masala", "Lemon"], image: indianBroccoli }
+                { name: "Galouti Kebab with Saffron Paratha", price: "₹2600", desc: "Impossibly tender Lucknowi lamb patties infused with over 100 spices, served on saffron-laced paratha with mint chutney.", ingredients: ["Minced Lamb", "Saffron", "Raw Papaya", "Kewra Water", "Mint Chutney"], image: indianGalouti },
+                { name: "Murgh Malai Kebab", price: "₹2400", desc: "Succulent chicken skewers marinated in triple cream, processed cheese and aromatic garlic, char-grilled in a tandoor.", ingredients: ["Chicken Breast", "Triple Cream", "Processed Cheese", "Garlic", "Green Chili"], image: indianMurghMalai },
+                { name: "Tandoori Broccoli with Mint Chutney", price: "₹2000", desc: "Large broccoli florets wrapped in a smoky hung curd marinade, char-grilled in a traditional tandoor until perfectly blistered.", ingredients: ["Broccoli", "Hung Curd", "Carom Seeds", "Chaat Masala", "Lemon"], image: indianBroccoli }
             ]
         },
         {
             type: "Main Course",
             dishes: [
-                { name: "Murgh Makhani (Butter Chicken)", price: "$38", desc: "Smoky tandoor chicken in a rich, velvety tomato-fenugreek gravy finished with artisanal cultured butter and cream.", ingredients: ["Chicken", "Tomato Gravy", "Fenugreek", "Artisanal Butter", "Cream"], image: indianButterChicken },
-                { name: "Rogan Josh – Kashmiri Lamb Curry", price: "$42", desc: "Slow-braised Kashmiri lamb in a deeply aromatic sauce of dried Kashmiri chilies, whole spices and saffron-laced yogurt.", ingredients: ["Kashmiri Lamb", "Kashmiri Chili", "Saffron Yogurt", "Whole Spices", "Fried Onion"], image: indianRoganJosh },
-                { name: "Paneer Lababdar", price: "$32", desc: "Pillowy cottage cheese cubes bathed in a creamy, slow-cooked tomato and caramelized onion masala with a hint of cardamom.", ingredients: ["Paneer", "Tomato Onion Masala", "Cardamom", "Cashew Paste", "Fresh Cream"], image: indianPaneer }
+                { name: "Murgh Makhani (Butter Chicken)", price: "₹3800", desc: "Smoky tandoor chicken in a rich, velvety tomato-fenugreek gravy finished with artisanal cultured butter and cream.", ingredients: ["Chicken", "Tomato Gravy", "Fenugreek", "Artisanal Butter", "Cream"], image: indianButterChicken },
+                { name: "Rogan Josh – Kashmiri Lamb Curry", price: "₹4200", desc: "Slow-braised Kashmiri lamb in a deeply aromatic sauce of dried Kashmiri chilies, whole spices and saffron-laced yogurt.", ingredients: ["Kashmiri Lamb", "Kashmiri Chili", "Saffron Yogurt", "Whole Spices", "Fried Onion"], image: indianRoganJosh },
+                { name: "Paneer Lababdar", price: "₹3200", desc: "Pillowy cottage cheese cubes bathed in a creamy, slow-cooked tomato and caramelized onion masala with a hint of cardamom.", ingredients: ["Paneer", "Tomato Onion Masala", "Cardamom", "Cashew Paste", "Fresh Cream"], image: indianPaneer }
             ]
         },
         {
             type: "Desserts",
             dishes: [
-                { name: "Shahi Tukda with Rabri", price: "$18", desc: "Royal Mughal bread pudding — crispy ghee-fried bread soaked in condensed milk, crowned with saffron rabri, silver leaf and crushed nut soil.", ingredients: ["Brioche", "Rabri", "Saffron", "Silver Leaf", "Pistachio Soil"], image: indianShahiTukda },
-                { name: "Rasmalai Pistachio Cream", price: "$16", desc: "Feather-light cottage cheese discs poached in saffron milk, dusted with pistachio powder and rose petal dust.", ingredients: ["Chhena", "Saffron Milk", "Pistachio Dust", "Rose Water", "Cardamom"], image: indianRasmalai },
-                { name: "Kulfi Falooda", price: "$15", desc: "Creamy traditional malai kulfi on a bed of basil seeds and rose-syrup vermicelli, a timeless Indian street dessert elevated.", ingredients: ["Malai Kulfi", "Rose Syrup", "Vermicelli", "Basil Seeds", "Rabri"], image: indianKulfi }
+                { name: "Shahi Tukda with Rabri", price: "₹1800", desc: "Royal Mughal bread pudding — crispy ghee-fried bread soaked in condensed milk, crowned with saffron rabri, silver leaf and crushed nut soil.", ingredients: ["Brioche", "Rabri", "Saffron", "Silver Leaf", "Pistachio Soil"], image: indianShahiTukda },
+                { name: "Rasmalai Pistachio Cream", price: "₹1600", desc: "Feather-light cottage cheese discs poached in saffron milk, dusted with pistachio powder and rose petal dust.", ingredients: ["Chhena", "Saffron Milk", "Pistachio Dust", "Rose Water", "Cardamom"], image: indianRasmalai },
+                { name: "Kulfi Falooda", price: "₹1500", desc: "Creamy traditional malai kulfi on a bed of basil seeds and rose-syrup vermicelli, a timeless Indian street dessert elevated.", ingredients: ["Malai Kulfi", "Rose Syrup", "Vermicelli", "Basil Seeds", "Rabri"], image: indianKulfi }
             ]
         }
     ],
@@ -108,25 +108,25 @@ const menuData = {
         {
             type: "Starters",
             dishes: [
-                { name: "Chicken Satay with Peanut Sauce", price: "$22", desc: "Marinated coconut-lemongrass chicken skewers grilled over charcoal, served with rich peanut dipping sauce and cucumber relish.", ingredients: ["Chicken Thigh", "Lemongrass", "Coconut Milk", "Peanut Sauce", "Cucumber Relish"], image: asianSatay },
-                { name: "Crispy Prawn Tempura", price: "$28", desc: "Jumbo tiger prawns in an impossibly light, airy batter, twice-fried for maximum crunch, served with classic tentsuyu dipping sauce.", ingredients: ["Tiger Prawns", "Tempura Batter", "Tentsuyu Sauce", "Daikon Radish", "Ginger"], image: asianTempura },
-                { name: "Vegetable Crystal Dim Sum", price: "$20", desc: "Hand-pleated translucent rice dumplings filled with a fragrant medley of shiitake mushrooms, water chestnuts and bamboo shoots.", ingredients: ["Rice Flour", "Shiitake Mushroom", "Water Chestnut", "Bamboo Shoots", "Sesame Oil"], image: asianDimSum }
+                { name: "Chicken Satay with Peanut Sauce", price: "₹2200", desc: "Marinated coconut-lemongrass chicken skewers grilled over charcoal, served with rich peanut dipping sauce and cucumber relish.", ingredients: ["Chicken Thigh", "Lemongrass", "Coconut Milk", "Peanut Sauce", "Cucumber Relish"], image: asianSatay },
+                { name: "Crispy Prawn Tempura", price: "₹2800", desc: "Jumbo tiger prawns in an impossibly light, airy batter, twice-fried for maximum crunch, served with classic tentsuyu dipping sauce.", ingredients: ["Tiger Prawns", "Tempura Batter", "Tentsuyu Sauce", "Daikon Radish", "Ginger"], image: asianTempura },
+                { name: "Vegetable Crystal Dim Sum", price: "₹2000", desc: "Hand-pleated translucent rice dumplings filled with a fragrant medley of shiitake mushrooms, water chestnuts and bamboo shoots.", ingredients: ["Rice Flour", "Shiitake Mushroom", "Water Chestnut", "Bamboo Shoots", "Sesame Oil"], image: asianDimSum }
             ]
         },
         {
             type: "Main Course",
             dishes: [
-                { name: "Thai Green Curry Chicken", price: "$36", desc: "Aromatic house-made green curry paste simmered in coconut milk with free-range chicken, pea aubergine and fresh kaffir lime leaves.", ingredients: ["Green Curry Paste", "Coconut Milk", "Free-Range Chicken", "Kaffir Lime", "Pea Aubergine"], image: asianGreenCurry },
-                { name: "Black Pepper Beef Stir Fry", price: "$44", desc: "Wok-charred beef tenderloin tossed in a bold, fragrant black pepper and oyster sauce with crispy garlic and spring onion.", ingredients: ["Beef Tenderloin", "Black Pepper Sauce", "Oyster Sauce", "Garlic", "Spring Onion"], image: asianBeef },
-                { name: "Teriyaki Glazed Salmon", price: "$42", desc: "Norwegian Atlantic salmon lacquered with a house-made mirin-soy teriyaki glaze, served with steamed bok choy and jasmine rice.", ingredients: ["Norwegian Salmon", "Mirin", "Soy Sauce", "Sake", "Bok Choy"], image: asianSalmon }
+                { name: "Thai Green Curry Chicken", price: "₹3600", desc: "Aromatic house-made green curry paste simmered in coconut milk with free-range chicken, pea aubergine and fresh kaffir lime leaves.", ingredients: ["Green Curry Paste", "Coconut Milk", "Free-Range Chicken", "Kaffir Lime", "Pea Aubergine"], image: asianGreenCurry },
+                { name: "Black Pepper Beef Stir Fry", price: "₹4400", desc: "Wok-charred beef tenderloin tossed in a bold, fragrant black pepper and oyster sauce with crispy garlic and spring onion.", ingredients: ["Beef Tenderloin", "Black Pepper Sauce", "Oyster Sauce", "Garlic", "Spring Onion"], image: asianBeef },
+                { name: "Teriyaki Glazed Salmon", price: "₹4200", desc: "Norwegian Atlantic salmon lacquered with a house-made mirin-soy teriyaki glaze, served with steamed bok choy and jasmine rice.", ingredients: ["Norwegian Salmon", "Mirin", "Soy Sauce", "Sake", "Bok Choy"], image: asianSalmon }
             ]
         },
         {
             type: "Desserts",
             dishes: [
-                { name: "Mango Sticky Rice", price: "$18", desc: "Glutinous sticky rice cooked in sweet coconut milk, paired with ripe Alphonso mango slices and a drizzle of gold-flecked coconut cream.", ingredients: ["Glutinous Rice", "Coconut Milk", "Alphonso Mango", "Palm Sugar", "Gold Leaf"], image: asianMango },
-                { name: "Matcha Cheesecake", price: "$16", desc: "Velvety Japanese ceremonial-grade matcha baked cheesecake on a toasted black sesame crust, dusted with matcha snow.", ingredients: ["Ceremonial Matcha", "Cream Cheese", "Black Sesame Crust", "White Chocolate", "Matcha Snow"], image: asianMatcha },
-                { name: "Mochi Ice Cream Trio", price: "$18", desc: "Three hand-made glutinous rice mochi filled with premium ice cream in vanilla bean, dark chocolate and strawberry yuzu flavours.", ingredients: ["Glutinous Rice", "Vanilla Bean", "Dark Chocolate", "Strawberry Yuzu", "Cornstarch"], image: asianMochi }
+                { name: "Mango Sticky Rice", price: "₹1800", desc: "Glutinous sticky rice cooked in sweet coconut milk, paired with ripe Alphonso mango slices and a drizzle of gold-flecked coconut cream.", ingredients: ["Glutinous Rice", "Coconut Milk", "Alphonso Mango", "Palm Sugar", "Gold Leaf"], image: asianMango },
+                { name: "Matcha Cheesecake", price: "₹1600", desc: "Velvety Japanese ceremonial-grade matcha baked cheesecake on a toasted black sesame crust, dusted with matcha snow.", ingredients: ["Ceremonial Matcha", "Cream Cheese", "Black Sesame Crust", "White Chocolate", "Matcha Snow"], image: asianMatcha },
+                { name: "Mochi Ice Cream Trio", price: "₹1800", desc: "Three hand-made glutinous rice mochi filled with premium ice cream in vanilla bean, dark chocolate and strawberry yuzu flavours.", ingredients: ["Glutinous Rice", "Vanilla Bean", "Dark Chocolate", "Strawberry Yuzu", "Cornstarch"], image: asianMochi }
             ]
         }
     ],
@@ -134,25 +134,25 @@ const menuData = {
         {
             type: "Starters",
             dishes: [
-                { name: "Burrata with Cherry Tomatoes & Olive Oil", price: "$26", desc: "Hand-pulled Pugliese burrata on a bed of roasted and raw cherry tomatoes, finished with Sicilian basil oil, balsamic pearls and warm focaccia.", ingredients: ["Burrata", "Cherry Tomatoes", "Basil Oil", "Balsamic Pearls", "Focaccia"], image: medBurrata },
-                { name: "Beef Carpaccio with Parmesan Shavings", price: "$28", desc: "Paper-thin wagyu beef, dressed with truffle aioli, peppery arugula, shaved 24-month Parmigiano and a drizzle of cold-pressed extra virgin olive oil.", ingredients: ["Wagyu Beef", "Truffle Aioli", "Arugula", "Parmigiano Reggiano", "Extra Virgin Olive Oil"], image: medCarpaccio },
-                { name: "Classic Bruschetta with Tomato & Basil", price: "$22", desc: "Toasted sourdough rubbed with garlic, piled high with vine-ripened heirloom tomatoes, fresh basil and a splash of aged balsamic.", ingredients: ["Sourdough", "Heirloom Tomatoes", "Garlic", "Fresh Basil", "Aged Balsamic"], image: medBruschetta }
+                { name: "Burrata with Cherry Tomatoes & Olive Oil", price: "₹2600", desc: "Hand-pulled Pugliese burrata on a bed of roasted and raw cherry tomatoes, finished with Sicilian basil oil, balsamic pearls and warm focaccia.", ingredients: ["Burrata", "Cherry Tomatoes", "Basil Oil", "Balsamic Pearls", "Focaccia"], image: medBurrata },
+                { name: "Beef Carpaccio with Parmesan Shavings", price: "₹2800", desc: "Paper-thin wagyu beef, dressed with truffle aioli, peppery arugula, shaved 24-month Parmigiano and a drizzle of cold-pressed extra virgin olive oil.", ingredients: ["Wagyu Beef", "Truffle Aioli", "Arugula", "Parmigiano Reggiano", "Extra Virgin Olive Oil"], image: medCarpaccio },
+                { name: "Classic Bruschetta with Tomato & Basil", price: "₹2200", desc: "Toasted sourdough rubbed with garlic, piled high with vine-ripened heirloom tomatoes, fresh basil and a splash of aged balsamic.", ingredients: ["Sourdough", "Heirloom Tomatoes", "Garlic", "Fresh Basil", "Aged Balsamic"], image: medBruschetta }
             ]
         },
         {
             type: "Main Course",
             dishes: [
-                { name: "Lobster Ravioli with Cream Sauce", price: "$48", desc: "Hand-pulled egg-yolk pasta parcels filled with Atlantic lobster and ricotta, bathed in a rich bisque reduction with fresh tarragon.", ingredients: ["Atlantic Lobster", "Egg Pasta", "Ricotta", "Lobster Bisque", "Tarragon"], image: medRavioli },
-                { name: "Truffle Mushroom Risotto", price: "$38", desc: "Slow-stirred Carnaroli rice with wild porcini and cremini mushrooms, finished with white truffle oil, aged parmesan and a truffle carpaccio.", ingredients: ["Carnaroli Rice", "Porcini Mushrooms", "White Truffle Oil", "Parmigiano", "Truffle Carpaccio"], image: medRisotto },
-                { name: "Grilled Mediterranean Sea Bass", price: "$52", desc: "Whole spigola filleted and herb-baked, served over roasted seasonal vegetables with a bright lemon-caper emulsion.", ingredients: ["Mediterranean Sea Bass", "Herbs", "Roasted Vegetables", "Lemon Emulsion", "Capers"], image: medSeaBass }
+                { name: "Lobster Ravioli with Cream Sauce", price: "₹4800", desc: "Hand-pulled egg-yolk pasta parcels filled with Atlantic lobster and ricotta, bathed in a rich bisque reduction with fresh tarragon.", ingredients: ["Atlantic Lobster", "Egg Pasta", "Ricotta", "Lobster Bisque", "Tarragon"], image: medRavioli },
+                { name: "Truffle Mushroom Risotto", price: "₹3800", desc: "Slow-stirred Carnaroli rice with wild porcini and cremini mushrooms, finished with white truffle oil, aged parmesan and a truffle carpaccio.", ingredients: ["Carnaroli Rice", "Porcini Mushrooms", "White Truffle Oil", "Parmigiano", "Truffle Carpaccio"], image: medRisotto },
+                { name: "Grilled Mediterranean Sea Bass", price: "₹5200", desc: "Whole spigola filleted and herb-baked, served over roasted seasonal vegetables with a bright lemon-caper emulsion.", ingredients: ["Mediterranean Sea Bass", "Herbs", "Roasted Vegetables", "Lemon Emulsion", "Capers"], image: medSeaBass }
             ]
         },
         {
             type: "Desserts",
             dishes: [
-                { name: "Classic Tiramisu", price: "$18", desc: "Savoiardi ladyfingers soaked in double espresso and dark rum, layered with silky Venetian mascarpone and dusted with Valrhona cocoa.", ingredients: ["Mascarpone", "Savoiardi", "Double Espresso", "Dark Rum", "Valrhona Cocoa"], image: medTiramisu },
-                { name: "Vanilla Panna Cotta with Berry Compote", price: "$16", desc: "Silky vanilla bean panna cotta, set to a perfect trembling wobble, served with warm raspberry and blackberry compote and fresh mint.", ingredients: ["Cream", "Vanilla Bean", "Gelatin", "Raspberry Compote", "Fresh Mint"], image: medPannaCotta },
-                { name: "Cannoli with Ricotta Cream", price: "$14", desc: "Freshly fried Sicilian pastry shells filled to order with sweet sheeps-milk ricotta cream, dark chocolate chips and candied orange peel.", ingredients: ["Ricotta", "Pastry Shell", "Dark Chocolate", "Candied Orange", "Pistachio Dust"], image: medCannoli }
+                { name: "Classic Tiramisu", price: "₹1800", desc: "Savoiardi ladyfingers soaked in double espresso and dark rum, layered with silky Venetian mascarpone and dusted with Valrhona cocoa.", ingredients: ["Mascarpone", "Savoiardi", "Double Espresso", "Dark Rum", "Valrhona Cocoa"], image: medTiramisu },
+                { name: "Vanilla Panna Cotta with Berry Compote", price: "₹1600", desc: "Silky vanilla bean panna cotta, set to a perfect trembling wobble, served with warm raspberry and blackberry compote and fresh mint.", ingredients: ["Cream", "Vanilla Bean", "Gelatin", "Raspberry Compote", "Fresh Mint"], image: medPannaCotta },
+                { name: "Cannoli with Ricotta Cream", price: "₹1400", desc: "Freshly fried Sicilian pastry shells filled to order with sweet sheeps-milk ricotta cream, dark chocolate chips and candied orange peel.", ingredients: ["Ricotta", "Pastry Shell", "Dark Chocolate", "Candied Orange", "Pistachio Dust"], image: medCannoli }
             ]
         }
     ]
@@ -552,7 +552,7 @@ const Restaurant = () => {
                 </div>
             </section>
 
-            <Footer />
+            <Footer email="dining@luxestay.com" />
 
             {/* Dish Details Modal — Split Panel */}
             <AnimatePresence>

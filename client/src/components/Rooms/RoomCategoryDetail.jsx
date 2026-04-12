@@ -176,7 +176,7 @@ const RoomCategoryDetail = () => {
                             display: 'flex', alignItems: 'center', gap: '0.5rem',
                             color: '#0ea5e9', fontWeight: 700, fontSize: '1.3rem'
                         }}>
-                            ${category.price} <span style={{ fontSize: '0.9rem', fontWeight: 400, color: '#64748b' }}>/ night</span>
+                            ₹{category.price} <span style={{ fontSize: '0.9rem', fontWeight: 400, color: '#64748b' }}>/ night</span>
                         </div>
 
                     </div>
@@ -244,7 +244,7 @@ const RoomCategoryDetail = () => {
                             }}
                                 onClick={handleInitialBookClick}
                             >
-                                Book This Room — ${category.price}/night
+                                Book This Room — ₹{category.price}/night
                             </button>
                         ) : (
                             <div style={{
@@ -340,7 +340,7 @@ const RoomCategoryDetail = () => {
                                 {checkIn && checkOut && new Date(checkOut) > new Date(checkIn) && (
                                     <p style={{ color: '#0ea5e9', fontSize: '0.9rem', textAlign: 'center', marginBottom: '1rem', fontWeight: 600 }}>
                                         {Math.ceil((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24))} nights
-                                        &nbsp;—&nbsp; Total: ${(Math.ceil((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)) * category.price).toFixed(2)}
+                                        &nbsp;—&nbsp; Total: ₹{(Math.ceil((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)) * category.price).toFixed(2)}
                                     </p>
                                 )}
 
